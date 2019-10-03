@@ -84,7 +84,7 @@
 
 				.sub-menu {
 					width: 200px;
-					margin-left: 5px;
+					margin: 10px 0px 10px 5px;
 					padding: 10px;
 					border-style: solid;
 					border-color: white;
@@ -102,13 +102,17 @@
 						margin: 5px;
 					}
 
-				#checkboxes {
-					margin-top: 15px;
-					text-align: left;
+				#view-menu {
+					overflow-y: scroll;
 				}
-					.sub-box {
-						margin-left: 20px;
+
+					#checkboxes {
+						margin-top: 15px;
+						text-align: left;
 					}
+						.sub-box {
+							margin-left: 20px;
+						}
 
 
 
@@ -120,6 +124,8 @@
 
 	<script src="./js/init.js"></script>
 	<script src="./js/loop.js"></script>
+	<script src="./js/atlas.js"></script>
+	<script src="./js/drawer.js"></script>
 
 </head>
 
@@ -155,8 +161,14 @@
 			
 			<div id="draw-menu" class="sub-menu">
 				<h2>Draw</h2>
-				<button>Tiles</button>
-				<button>Cubes</button>
+				<button id="draw-tile">Tiles</button>
+				<button id="draw-cube">Cubes</button>
+			</div>
+
+			<div id="delete-menu" class="sub-menu">
+				<h2>Delete</h2>
+				<button id="delete-tile">Tiles</button>
+				<button id="delete-cube">Cubes</button>
 			</div>
 
 			<div id="paint-menu" class="sub-menu">

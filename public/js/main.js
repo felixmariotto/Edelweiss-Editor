@@ -1,6 +1,6 @@
 
 
-var scene, camera, renderer, stats, controls ;
+var scene, camera, renderer, stats, controls, atlas, drawer ;
 
 const CANVAS = document.getElementById('world');
 

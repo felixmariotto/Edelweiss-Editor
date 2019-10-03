@@ -8,8 +8,8 @@ function init() {
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x555555 );
 
-	camera = new THREE.PerspectiveCamera( 80, rect.width/rect.height, 0.1, 1000 );
-	camera.position.set( 0, 0, -20 );
+	camera = new THREE.PerspectiveCamera( 40, rect.width/rect.height, 0.1, 1000 );
+	camera.position.set( 0, 0, -40 );
 	camera.lookAt( 0, 0, 0 );
 
 	controls = new THREE.OrbitControls( camera, CANVAS );
@@ -23,12 +23,8 @@ function init() {
 	stats.dom.style.top = "auto";
 	stats.dom.style.bottom = "0px";
 
-	let cube = new THREE.Mesh(
-		new THREE.BoxBufferGeometry(5,5,5),
-		new THREE.MeshNormalMaterial()
-		);
-
-	scene.add( cube );
+	atlas = Atlas();
+	drawer = Drawer();
 
 	loop();
 };
