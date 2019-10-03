@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edelweiss</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
+
+	<style type="text/css">
+		
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		#page-container {
+			position: fixed;
+			display: flex;
+			height: 100%;
+			width: 100%;
+		}
+
+
+
+
+
+
+
+			#left-container {
+				width: 100%;
+			}
+
+				#world {
+					height: 100%;
+					width: 100%;
+					background-color: yellow;
+				}
+
+				#console {
+					display: flex;
+					flex-direction: column-reverse;
+					height: 90px;
+					width: calc(100% - 25px);
+					border-style: solid;
+					border-color: white;
+					border-width: 5px;
+					padding: 0px 0px 5px 15px;
+					background-color: black;
+					overflow-y: scroll;
+				}
+
+					.log {
+						color: white;
+						margin: 2px 0px 2px 0px;
+					}
+
+
+
+
+
+
+
+			#menu {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-evenly;
+				width: 240px;
+				min-width: 240px;
+				border-style: solid;
+				border-color: white;
+				border-width: 5px;
+				background-color: black;
+				color: white;
+			}
+
+				.sub-menu {
+					width: 200px;
+					margin-left: 5px;
+					padding: 10px;
+					border-style: solid;
+					border-color: white;
+					border-width: 3px;
+				}
+
+
+
+	</style>
+
+	<script src="./libs/three.js"></script>
+	<script src="./libs/stats.min.js"></script>
+	<script src="./libs/OrbitControls.js"></script>
+
+	<script src="./js/init.js"></script>
+	<script src="./js/loop.js"></script>
+
+</head>
+
+
+
+
+
+<body>
+
+
+
+	<div id="page-container">
+		
+
+
+		<div id="left-container">
+			<div id="console">
+				<p class="log">This is a console log</p>
+				<p class="log">This is a console log</p>
+				<p class="log">This is a console log</p>
+				<p class="log">This is a console log</p>
+				<p class="log">This is a console log</p>
+				<p class="log">This is a console log</p>
+				<p class="log">This is a console log</p>
+				<p class="log">This is a console log</p>
+			</div>
+			<canvas id="world"></canvas>
+		</div>
+
+
+
+		<div id="menu">
+			
+			<div id="draw-menu" class="sub-menu">
+				draw option
+			</div>
+
+			<div id="paint-menu" class="sub-menu">
+				draw option
+			</div>
+
+			<div id="view-menu" class="sub-menu">
+				draw option
+			</div>
+
+		</div>
+
+
+
+	</div>
+
+	<script src="./js/main.js"></script>
+
+</body>
+</html>

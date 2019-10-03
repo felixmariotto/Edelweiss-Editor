@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/felixmariotto/Edelweiss/issues"
   },
-  "homepage": "https://github.com/felixmariotto/Edelweiss#readme"
+  "homepage": "https://github.com/felixmariotto/Edelweiss#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
