@@ -12,6 +12,16 @@
 			padding: 0;
 		}
 
+		button {
+			padding: 5px;
+			margin: 5px;
+		}
+
+		input[type=checkbox] {
+		    transform: scale(1.5);
+		    margin: 8px;
+		}
+
 		#page-container {
 			position: fixed;
 			display: flex;
@@ -79,7 +89,26 @@
 					border-style: solid;
 					border-color: white;
 					border-width: 3px;
+					text-align: center;
 				}
+
+				#paint-container {
+					max-height: 20vh;
+					text-align: left;
+					overflow-y: scroll;
+				}
+
+					.paint {
+						margin: 5px;
+					}
+
+				#checkboxes {
+					margin-top: 15px;
+					text-align: left;
+				}
+					.sub-box {
+						margin-left: 20px;
+					}
 
 
 
@@ -125,16 +154,74 @@
 		<div id="menu">
 			
 			<div id="draw-menu" class="sub-menu">
-				draw option
+				<h2>Draw</h2>
+				<button>Tiles</button>
+				<button>Cubes</button>
 			</div>
 
 			<div id="paint-menu" class="sub-menu">
-				draw option
+				<h2>Paint</h2>
+				<div id="paint-container">
+					<div class="paint">Tile - Wall - Easy</div>
+					<div class="paint">Tile - Wall - Medium</div>
+					<div class="paint">Tile - Wall - Hard</div>
+					<div class="paint">Tile - Wall - Fall</div>
+					<div class="paint">Tile - Wall - Slip</div>
+				</div>
 			</div>
 
+
+
 			<div id="view-menu" class="sub-menu">
-				draw option
+				<h2>Layers</h2>
+
+				<div id="checkboxes">
+
+					<!-- TILES -->
+					
+					<div>
+					  <input type="checkbox" id="tiles" name="tiles" checked>
+					  <label for="tiles">Tiles</label>
+					</div>
+
+						<div class="sub-box">
+						  <input type="checkbox" id="wall-easy" name="wall-easy" checked>
+						  <label for="wall-easy">Wall - Easy</label>
+						</div>
+
+						<div class="sub-box">
+						  <input type="checkbox" id="wall-medium" name="wall-medium" checked>
+						  <label for="wall-medium">Wall - Medium</label>
+						</div>
+
+						<div class="sub-box">
+						  <input type="checkbox" id="wall-hard" name="wall-hard" checked>
+						  <label for="wall-hard">Wall - Hard</label>
+						</div>
+
+
+					<br>
+
+					<div>
+					  <input type="checkbox" id="tiles" name="tiles" checked>
+					  <label for="tiles">Tiles</label>
+					</div>
+
+						<div class="sub-box">
+						  <input type="checkbox" id="wind-top" name="wind-top" checked>
+						  <label for="wind-top">Wind - Top</label>
+						</div>
+
+						<div class="sub-box">
+						  <input type="checkbox" id="wind-front" name="wind-front" checked>
+						  <label for="wind-front">Wind - Front</label>
+						</div>
+
+				</div>
+
 			</div>
+
+
 
 		</div>
 
