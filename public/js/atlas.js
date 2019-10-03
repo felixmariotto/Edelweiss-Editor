@@ -2,12 +2,23 @@
 function Atlas() {
 
 	// WALLS MATERIALS
-	const SLIPWALLMAT = new THREE.MeshLambertMaterial({ color: 0xff00ff });
+	const SLIPWALLMAT = new THREE.MeshBasicMaterial({
+		color: 0xff00ff,
+		side: THREE.DoubleSide
+	});
 
 	// GROUND MATERIALS
-	const BASICGROUNDMAT = new THREE.MeshLambertMaterial({ color: 0x777777 });
+	const BASICGROUNDMAT = new THREE.MeshBasicMaterial({
+		color: 0x777777,
+		side: THREE.DoubleSide
+	});
 
 
+
+	Tile(
+		new THREE.Vector3( 0, 0, 0 ),
+		new THREE.Vector3( 1, 0, 1 )
+	);
 
 	Tile(
 		new THREE.Vector3( 0, 0, 0 ),
@@ -26,6 +37,7 @@ function Atlas() {
 			logicTile.type = 'basic-ground' ;
 			let meshTile = MeshTile( logicTile ) ;
 			scene.add( meshTile );
+			
 
 		// WALL
 		} else {
@@ -48,10 +60,31 @@ function Atlas() {
 	function MeshTile( logicTile ) {
 
 		// get material according to logicType's type
+		let material ;
 
-		// create a mesh from the vectors contained in logicTile
+		switch ( logicTile.type ) {
 
-		// return the mesh
+			case 'basic-ground' :
+				material = BASICGROUNDMAT ;
+				break;
+			case 'slip-wall' :
+				material = SLIPWALLMAT ;
+				break;
+
+		};
+
+		let geometry = new THREE.PlaneBufferGeometry( 1, 1, 1 );
+
+		let mesh = new THREE.Mesh( geometry, material );
+
+		if ( logicTile.isWall ) {
+			mesh.position.set( 0.5, 0.5, 0 );
+		} else {
+			mesh.rotation.x = Math.PI / 2 ;
+			mesh.position.set( 0.5, 0, 0.5 );
+		};
+
+		return mesh ;
 
 	};
 
@@ -64,9 +97,8 @@ function Atlas() {
 
 		let logicTile = {
 			points: [vec1, vec2]
-			// groundType
-			// wallType
-			//isWall
+			// type
+			// isWall
 		};
 
 		return logicTile ;
