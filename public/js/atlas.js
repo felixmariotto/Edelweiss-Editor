@@ -32,45 +32,11 @@ function Atlas() {
 		new THREE.Vector3( 2, 0, 2 )
 	);
 
-	Tile(
-		new THREE.Vector3( 0, 0, 0 ),
-		new THREE.Vector3( 1, 1, 0 )
-	);
 
 	Tile(
-		new THREE.Vector3( 0, 1, 0 ),
-		new THREE.Vector3( 1, 2, 0 )
+		new THREE.Vector3( -1, 0, 0 ),
+		new THREE.Vector3( -1, 1, 1 )
 	);
-
-	Tile(
-		new THREE.Vector3( 5, 1, 0 ),
-		new THREE.Vector3( 6, 2, 0 )
-	);
-
-	Tile(
-		new THREE.Vector3( 5, -1, 0 ),
-		new THREE.Vector3( 6, -1, -1 )
-	);
-
-
-	/// BUG
-
-	/*
-	Tile(
-		new THREE.Vector3( 0, 2, 1 ),
-		new THREE.Vector3( 0, 1, 0 )
-	);
-
-	Tile(
-		new THREE.Vector3( 0, 2, -1 ),
-		new THREE.Vector3( 0, 1, 0 )
-	);
-
-	Tile(
-		new THREE.Vector3( -1, 2, 0 ),
-		new THREE.Vector3( 0, 1, 0 )
-	);
-	*/
 
 
 
@@ -189,6 +155,15 @@ function Atlas() {
 
 			logicTile.type = 'slip-wall' ;
 			logicTile.isWall = true ;
+
+			if ( vec1.z == vec2.z ) {
+			
+				logicTile.isXAligned = true ;
+
+			} else {
+
+				logicTile.isXAligned = false ;
+			};
 
 		};
 
