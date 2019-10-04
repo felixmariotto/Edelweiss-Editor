@@ -2,13 +2,13 @@
 function Atlas() {
 
 	// WALLS MATERIALS
-	const SLIPWALLMAT = new THREE.MeshBasicMaterial({
-		color: 0xff00ff,
+	const SLIPWALLMAT = new THREE.MeshLambertMaterial({
+		color: 0xff9cc7,
 		side: THREE.DoubleSide
 	});
 
 	// GROUND MATERIALS
-	const BASICGROUNDMAT = new THREE.MeshBasicMaterial({
+	const BASICGROUNDMAT = new THREE.MeshLambertMaterial({
 		color: 0x777777,
 		side: THREE.DoubleSide
 	});
@@ -82,7 +82,9 @@ function Atlas() {
 
 			});
 
-			highlightedTempTile.material = SLIPWALLMAT ;
+			highlightedTempTile.material = highlightedTempTile.logicTile.isWall ?
+													SLIPWALLMAT :
+													BASICGROUNDMAT;
 			highlightedTempTile.visible = true ;
 
 			drawer.unselect();
@@ -189,10 +191,10 @@ function Atlas() {
 		switch ( logicTile.type ) {
 
 			case 'basic-ground' :
-				material = new THREE.MeshBasicMaterial().copy( BASICGROUNDMAT ) ;
+				material = new THREE.MeshLambertMaterial().copy( BASICGROUNDMAT ) ;
 				break;
 			case 'slip-wall' :
-				material = new THREE.MeshBasicMaterial().copy( SLIPWALLMAT ) ;
+				material = new THREE.MeshLambertMaterial().copy( SLIPWALLMAT ) ;
 				break;
 
 		};

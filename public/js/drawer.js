@@ -140,6 +140,28 @@ function Drawer() {
 				new THREE.Vector3().copy( logicTile.points[0] )
 			);
 
+		} else if ( !logicTile.isWall ) {
+
+			edges[0].vertices.push(
+				new THREE.Vector3().copy( logicTile.points[0] ),
+				new THREE.Vector3( logicTile.points[0].x, logicTile.points[0].y, logicTile.points[1].z )
+			);
+
+			edges[1].vertices.push(
+				new THREE.Vector3( logicTile.points[0].x, logicTile.points[0].y, logicTile.points[1].z ),
+				new THREE.Vector3().copy( logicTile.points[1] )
+			);
+
+			edges[2].vertices.push(
+				new THREE.Vector3().copy( logicTile.points[1] ),
+				new THREE.Vector3( logicTile.points[1].x, logicTile.points[0].y, logicTile.points[0].z )
+			);
+
+			edges[3].vertices.push(
+				new THREE.Vector3( logicTile.points[1].x, logicTile.points[0].y, logicTile.points[0].z ),
+				new THREE.Vector3().copy( logicTile.points[0] )
+			);
+
 		};
 
 

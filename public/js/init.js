@@ -12,6 +12,13 @@ function init() {
 	camera.position.set( 0, 2, 10 );
 	camera.lookAt( 0, 0, 0 );
 
+	var ambientLight = new THREE.AmbientLight( 0xffffff, 0.5 );
+	scene.add( ambientLight );
+
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	directionalLight.position.set( 0.24, 0.78, 0.56 );
+	scene.add( directionalLight );
+
 	controls = new THREE.OrbitControls( camera, CANVAS );
 	controls.screenSpacePanning = true ;
 	controls.keys = [];
