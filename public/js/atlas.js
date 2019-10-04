@@ -97,8 +97,36 @@ function Atlas() {
 
 		meshTile.material.dispose();
 		meshTile.geometry.dispose();
-		
+
 		scene.remove( meshTile );
+	};
+
+
+
+
+	function validateTile() {
+
+		if ( tempTiles.length > 0 ) {
+
+			tempTiles.forEach( (meshTile)=> {
+
+				if ( meshTile != highlightedTempTile ) {
+					deleteTile( meshTile );
+				};
+
+			});
+
+			highlightedTempTile.material = SLIPWALLMAT ;
+			highlightedTempTile.visible = true ;
+
+			drawer.unselect();
+			drawer.selectTile( highlightedTempTile ) ;
+
+			tempTiles = [];
+			highlightedTempTile = undefined ;
+
+		};
+
 	};
 
 
@@ -132,7 +160,11 @@ function Atlas() {
 		tempTiles.push( meshTile );
 
 		if ( tempTiles.length != 1 ) {
+
 			meshTile.visible = false ;
+
+		} else {
+
 			highlightedTempTile = meshTile ;
 		};
 
@@ -240,7 +272,8 @@ function Atlas() {
 		meshTiles,
 		TempTile,
 		clearTempTiles,
-		highlightTile
+		highlightTile,
+		validateTile
 	};
 
 

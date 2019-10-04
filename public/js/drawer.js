@@ -28,15 +28,25 @@ function Drawer() {
 
 		if ( intersects.length > 0 ) {
 
-			intersects[ 0 ].object.scale.setScalar( 0.8 );
-			selectedTile = intersects[ 0 ].object ;
-
-			createEdges( selectedTile.logicTile );
-
-			input.setState( 'select-edge' );
-			appConsole.log( 'Choose EDGE with ARROWS, then press ENTER or SPACE' );
+			selectTile( intersects[ 0 ].object );
 
 		};
+
+	};
+
+
+
+
+
+	function selectTile( meshTile ) {
+
+		meshTile.scale.setScalar( 0.8 );
+		selectedTile = meshTile ;
+
+		createEdges( selectedTile.logicTile );
+
+		input.setState( 'select-edge' );
+		appConsole.log( 'Choose EDGE with ARROWS, then press ENTER or SPACE' );
 
 	};
 
@@ -75,8 +85,6 @@ function Drawer() {
 
 
 	function createEdges( logicTile ) {
-
-
 
 		for (let i=0 ; i<4 ; i++) {
 			edges[i] = new THREE.Geometry();
@@ -220,6 +228,7 @@ function Drawer() {
 
 	return {
 		raycast,
+		selectTile,
 		unselect,
 		highlightEdge,
 		validateEdge

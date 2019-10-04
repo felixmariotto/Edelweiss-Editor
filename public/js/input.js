@@ -143,7 +143,13 @@ function Input() {
 	function validate() {
 
 		if ( state == 'select-edge' ) {
+
 			drawer.validateEdge();
+
+		} else if ( state == 'select-orientation' ) {
+
+			atlas.validateTile();
+
 		};
 
 	};
