@@ -16,13 +16,18 @@ function Atlas() {
 
 
 	Tile(
-		new THREE.Vector3( 0, 0, 0 ),
-		new THREE.Vector3( 1, 0, 1 )
+		new THREE.Vector3( 1, 0, 1 ),
+		new THREE.Vector3( 2, 0, 2 )
 	);
 
 	Tile(
 		new THREE.Vector3( 0, 0, 0 ),
 		new THREE.Vector3( 1, 1, 0 )
+	);
+
+	Tile(
+		new THREE.Vector3( 0, 1, 0 ),
+		new THREE.Vector3( 1, 2, 0 )
 	);
 
 
@@ -78,10 +83,22 @@ function Atlas() {
 		let mesh = new THREE.Mesh( geometry, material );
 
 		if ( logicTile.isWall ) {
-			mesh.position.set( 0.5, 0.5, 0 );
+
+			mesh.position.set(
+				( logicTile.points[0].x + logicTile.points[1].x ) / 2,
+				( logicTile.points[0].y + logicTile.points[1].y ) / 2,
+				0
+			);
+
 		} else {
+
 			mesh.rotation.x = Math.PI / 2 ;
-			mesh.position.set( 0.5, 0, 0.5 );
+			mesh.position.set(
+				( logicTile.points[0].x + logicTile.points[1].x ) / 2,
+				0,
+				( logicTile.points[0].z + logicTile.points[1].z ) / 2
+			);
+
 		};
 
 		return mesh ;
