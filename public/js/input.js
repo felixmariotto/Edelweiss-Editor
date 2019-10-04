@@ -72,6 +72,32 @@ function Input() {
 
 
 
+	////////////////////////////
+	///	 KEYBOARD INTERACTION
+	////////////////////////////
+
+	document.addEventListener( 'keydown', (e)=> {
+		
+		switch( e.code ) {
+
+			case 'Escape' :
+				setState('idle');
+				drawer.unselect();
+				appConsole.log('Abort all functions');
+				break;
+
+		};
+
+	}, false );
+
+
+
+
+
+	////////////////
+	///  FUNCTIONS
+	////////////////
+
 	function setState( stateString ) {
 		state = stateString ;
 	};
