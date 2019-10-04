@@ -12,6 +12,7 @@ function Drawer() {
 	var selectedTile;
 	var selectedEdge;
 	var edges = [];
+	var axis = new THREE.Vector3();
 
 
 
@@ -146,6 +147,8 @@ function Drawer() {
 
 		if ( selectedEdge ) {
 
+			createNewTiles();
+
 			input.setState( 'select-orientation' );
 			appConsole.log( 'Choose ORIENTATION with ARROWS, then press ENTER or SPACE' );
 		
@@ -153,7 +156,70 @@ function Drawer() {
 
 			appConsole.log( 'Select an edge before to continue' );
 		};
+
 	};
+
+
+
+
+
+	function createNewTiles() {
+
+		atlas.clearTempTiles();
+
+		// get selected line's verts
+		let verts = selectedEdge.geometry.vertices ;
+
+		// return a copy of the verts of the line opposite to the selected one
+		let oppVerts = edges[ ( edges.indexOf(selectedEdge) + 2 ) % 4 ].geometry.vertices // .slice(0) ;
+
+		// update axis for the rotation
+		verts[0].sub( verts[1] );
+		axis.copy( verts[0] ).normalize() ;
+		verts[0].add( verts[1] );
+
+		// create 3 temporary tiles
+		for (let i=1 ; i<4 ; i++) {
+			
+			// rotate one quarter
+			for (let j=0 ; j<2 ; j++) {
+
+				oppVerts[j].sub( verts[j] );
+				oppVerts[j].applyAxisAngle( axis, Math.PI / 2 );
+				oppVerts[j].add( verts[j] );
+
+			};
+
+			// get opposite verts for tile creation in atlas
+			[ verts[1], oppVerts[0], oppVerts[1] ].forEach( (vec)=> {
+
+				if ( verts[0].distanceTo( vec ) > 1.1 ) {
+
+					// request a new temporary tile to the atlas
+					atlas.TempTile(
+						new THREE.Vector3().copy( vec ),
+						new THREE.Vector3().copy( verts[0] )
+					);
+
+				};
+
+			});
+
+		};
+
+		
+
+		// TEMP
+		edges[ ( edges.indexOf(selectedEdge) + 2 ) % 4 ].geometry.verticesNeedUpdate = true ;
+
+
+
+	};
+
+
+
+
+
 
 
 

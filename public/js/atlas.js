@@ -13,7 +13,16 @@ function Atlas() {
 		side: THREE.DoubleSide
 	});
 
+	// TEMP TILES MATERIAL
+	const TEMPTILEMAT = new THREE.MeshLambertMaterial({
+		color: 0xffffff,
+		transparent: true,
+		opacity: 0.5,
+		side: THREE.DoubleSide
+	});
+
 	var meshTiles = [];
+	var tempTiles = [];
 
 
 
@@ -43,6 +52,71 @@ function Atlas() {
 	);
 
 
+	/// BUG
+
+	/*
+	Tile(
+		new THREE.Vector3( 0, 2, 1 ),
+		new THREE.Vector3( 0, 1, 0 )
+	);
+
+	Tile(
+		new THREE.Vector3( 0, 2, -1 ),
+		new THREE.Vector3( 0, 1, 0 )
+	);
+
+	Tile(
+		new THREE.Vector3( -1, 2, 0 ),
+		new THREE.Vector3( 0, 1, 0 )
+	);
+	*/
+
+
+
+	function clearTempTiles() {
+
+		if ( tempTiles.length > 0 ) {
+
+			tempTiles.forEach( (meshTile)=> {
+
+				deleteTile( meshTile );
+
+			});
+
+			tempTiles = [];
+		};
+	};
+
+
+
+	function deleteTile( meshTile ) {
+		meshTiles.splice( meshTiles.indexOf(meshTile), 1 );
+		meshTile.material.dispose();
+		meshTile.geometry.dispose();
+		scene.remove( meshTile );
+	};
+
+
+
+
+	function TempTile( vec1, vec2 ) {
+
+		// round the values to make clean tiles
+		[vec1, vec2].forEach( (vec)=> {
+			vec.x = Math.round( vec.x );
+			vec.y = Math.round( vec.y );
+			vec.z = Math.round( vec.z );
+		});
+
+		let meshTile = Tile( vec1, vec2 );
+
+		tempTiles.push( meshTile );
+
+		meshTile.material = new THREE.MeshLambertMaterial().copy( TEMPTILEMAT );
+	};
+
+
+
 
 
 	function Tile( vec1, vec2 ) {
@@ -66,6 +140,8 @@ function Atlas() {
 		meshTile.logicTile = logicTile ;
 		scene.add( meshTile );
 		meshTiles.push( meshTile );
+
+		return meshTile ;
 
 	};
 
@@ -94,22 +170,22 @@ function Atlas() {
 
 		let mesh = new THREE.Mesh( geometry, material );
 
+		mesh.position.set(
+			( logicTile.points[0].x + logicTile.points[1].x ) / 2,
+			( logicTile.points[0].y + logicTile.points[1].y ) / 2,
+			( logicTile.points[0].z + logicTile.points[1].z ) / 2
+		);
+
+
 		if ( logicTile.isWall ) {
 
-			mesh.position.set(
-				( logicTile.points[0].x + logicTile.points[1].x ) / 2,
-				( logicTile.points[0].y + logicTile.points[1].y ) / 2,
-				0
-			);
+			if ( logicTile.points[0].x == logicTile.points[1].x ) {
+				mesh.rotation.y = Math.PI / 2 ;
+			};
 
 		} else {
 
 			mesh.rotation.x = Math.PI / 2 ;
-			mesh.position.set(
-				( logicTile.points[0].x + logicTile.points[1].x ) / 2,
-				0,
-				( logicTile.points[0].z + logicTile.points[1].z ) / 2
-			);
 
 		};
 
@@ -137,7 +213,9 @@ function Atlas() {
 
 
 	return {
-		meshTiles
+		meshTiles,
+		TempTile,
+		clearTempTiles
 	};
 
 

@@ -89,6 +89,7 @@ function Input() {
 			case 'Escape' :
 				setState('idle');
 				drawer.unselect();
+				atlas.clearTempTiles();
 				appConsole.log('Abort all functions');
 				break;
 
