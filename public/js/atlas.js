@@ -13,6 +13,8 @@ function Atlas() {
 		side: THREE.DoubleSide
 	});
 
+	var meshTiles = [];
+
 
 
 	Tile(
@@ -30,6 +32,16 @@ function Atlas() {
 		new THREE.Vector3( 1, 2, 0 )
 	);
 
+	Tile(
+		new THREE.Vector3( 5, 1, 0 ),
+		new THREE.Vector3( 6, 2, 0 )
+	);
+
+	Tile(
+		new THREE.Vector3( 5, -1, 0 ),
+		new THREE.Vector3( 6, -1, -1 )
+	);
+
 
 
 
@@ -42,7 +54,8 @@ function Atlas() {
 			logicTile.type = 'basic-ground' ;
 			let meshTile = MeshTile( logicTile ) ;
 			scene.add( meshTile );
-			
+			meshTiles.push( meshTile );
+
 
 		// WALL
 		} else {
@@ -52,6 +65,7 @@ function Atlas() {
 			logicTile.isWall = true ;
 			let meshTile = MeshTile( logicTile ) ;
 			scene.add( meshTile );
+			meshTiles.push( meshTile );
 
 		};
 
@@ -70,10 +84,10 @@ function Atlas() {
 		switch ( logicTile.type ) {
 
 			case 'basic-ground' :
-				material = BASICGROUNDMAT ;
+				material = new THREE.MeshBasicMaterial().copy( BASICGROUNDMAT ) ;
 				break;
 			case 'slip-wall' :
-				material = SLIPWALLMAT ;
+				material = new THREE.MeshBasicMaterial().copy( SLIPWALLMAT ) ;
 				break;
 
 		};
@@ -124,6 +138,9 @@ function Atlas() {
 
 
 
+	return {
+		meshTiles
+	};
 
 
 };

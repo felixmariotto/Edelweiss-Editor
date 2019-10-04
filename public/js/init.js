@@ -25,6 +25,7 @@ function init() {
 
 	atlas = Atlas();
 	drawer = Drawer();
+	input = Input();
 
 	loop();
 };
