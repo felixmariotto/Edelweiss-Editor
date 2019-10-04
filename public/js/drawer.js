@@ -207,13 +207,6 @@ function Drawer() {
 
 		};
 
-		
-
-		// TEMP
-		edges[ ( edges.indexOf(selectedEdge) + 2 ) % 4 ].geometry.verticesNeedUpdate = true ;
-
-
-
 	};
 
 

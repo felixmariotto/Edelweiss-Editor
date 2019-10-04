@@ -17,6 +17,7 @@ function Input() {
 	/* LIST OF STATES :
 		select-tile
 		select-edge
+		select-orientation
 	*/
 
 
@@ -126,7 +127,13 @@ function Input() {
 	function requestDirection( int ) {
 
 		if ( state == 'select-edge' ) {
+
 			drawer.highlightEdge( int );
+
+		} else if ( state == 'select-orientation' && int != 3 ) {
+
+			atlas.highlightTile( int );
+
 		};
 
 	};

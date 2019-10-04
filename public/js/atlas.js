@@ -23,6 +23,7 @@ function Atlas() {
 
 	var meshTiles = [];
 	var tempTiles = [];
+	var highlightedTempTile;
 
 
 
@@ -84,16 +85,34 @@ function Atlas() {
 			});
 
 			tempTiles = [];
+			highlightedTempTile = undefined ;
 		};
 	};
 
 
 
 	function deleteTile( meshTile ) {
+
 		meshTiles.splice( meshTiles.indexOf(meshTile), 1 );
+
 		meshTile.material.dispose();
 		meshTile.geometry.dispose();
+		
 		scene.remove( meshTile );
+	};
+
+
+
+
+	function highlightTile( int ) {
+
+		tempTiles.forEach( (meshTile)=> {
+			meshTile.visible = false ;
+		});
+
+		highlightedTempTile = tempTiles[ int ];
+		tempTiles[ int ].visible = true ;
+
 	};
 
 
@@ -111,6 +130,11 @@ function Atlas() {
 		let meshTile = Tile( vec1, vec2 );
 
 		tempTiles.push( meshTile );
+
+		if ( tempTiles.length != 1 ) {
+			meshTile.visible = false ;
+			highlightedTempTile = meshTile ;
+		};
 
 		meshTile.material = new THREE.MeshLambertMaterial().copy( TEMPTILEMAT );
 	};
@@ -215,7 +239,8 @@ function Atlas() {
 	return {
 		meshTiles,
 		TempTile,
-		clearTempTiles
+		clearTempTiles,
+		highlightTile
 	};
 
 
