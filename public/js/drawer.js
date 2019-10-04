@@ -3,12 +3,15 @@
 function Drawer() {
 
 
+	const EDGECOLOR = 0xff0000 ;
+	const EDGEHIGHLIGHT = 0xffffff ;
+
 	const raycaster = new THREE.Raycaster();
 	var intersects;
 
 	var selectedTile;
+	var selectedEdge;
 	var edges = [];
-
 
 
 
@@ -24,13 +27,13 @@ function Drawer() {
 
 		if ( intersects.length > 0 ) {
 
-			intersects[ 0 ].object.material.wireframe = true ;
+			intersects[ 0 ].object.scale.setScalar( 0.8 );
 			selectedTile = intersects[ 0 ].object ;
 
 			createEdges( selectedTile.logicTile );
 
 			input.setState( 'select-edge' );
-			appConsole.log( 'Choose edge with ARROWS, then press ENTER or SPACE' );
+			appConsole.log( 'Choose EDGE with ARROWS, then press ENTER or SPACE' );
 
 		};
 
@@ -46,8 +49,9 @@ function Drawer() {
 
 		if ( selectedTile ) {
 
-			selectedTile.material.wireframe = false ;
+			selectedTile.scale.setScalar( 1 );
 			selectedTile = undefined ;
+			selectedEdge = undefined ;
 
 			// Delete the colored lines
 			edges.forEach( (line)=> {
@@ -72,9 +76,6 @@ function Drawer() {
 	function createEdges( logicTile ) {
 
 
-		var material = new THREE.LineBasicMaterial({
-			color: 0x0000ff
-		});
 
 		for (let i=0 ; i<4 ; i++) {
 			edges[i] = new THREE.Geometry();
@@ -103,7 +104,7 @@ function Drawer() {
 				new THREE.Vector3( logicTile.points[1].x, logicTile.points[0].y, 0 )
 			);
 
-			edges[2].vertices.push(
+			edges[3].vertices.push(
 				new THREE.Vector3( logicTile.points[1].x, logicTile.points[0].y, 0 ),
 				new THREE.Vector3().copy( logicTile.points[0] )
 			);
@@ -113,10 +114,45 @@ function Drawer() {
 
 
 		edges.forEach( (geom, i)=> {
-			edges[i] = new THREE.Line( geom, material );
-			scene.add( edges[i] );
-		})
 
+			edges[i] = new THREE.Line(
+				geom,
+				new THREE.LineBasicMaterial({ color: EDGECOLOR })
+			);
+
+			scene.add( edges[i] );
+
+		});
+
+	};
+
+
+
+
+	function highlightEdge( int ) {
+
+		edges.forEach( (geom, i)=> {
+			edges[ i ].material.color.set( EDGECOLOR );
+		});
+
+		edges[ int ].material.color.set( EDGEHIGHLIGHT );
+		selectedEdge = edges[ int ] ;
+	};
+
+
+
+
+	function validateEdge() {
+
+		if ( selectedEdge ) {
+
+			input.setState( 'select-orientation' );
+			appConsole.log( 'Choose ORIENTATION with ARROWS, then press ENTER or SPACE' );
+		
+		} else {
+
+			appConsole.log( 'Select an edge before to continue' );
+		};
 	};
 
 
@@ -125,7 +161,9 @@ function Drawer() {
 
 	return {
 		raycast,
-		unselect
+		unselect,
+		highlightEdge,
+		validateEdge
 	};
 
 };

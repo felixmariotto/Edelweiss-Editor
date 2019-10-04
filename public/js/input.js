@@ -25,12 +25,14 @@ function Input() {
 	//  DRAWING
 	///////////////
 
-	domDrawTile.addEventListener('click', ()=> {
+	domDrawTile.addEventListener('click', (e)=> {
+		domDrawTile.blur();
 		setState('select-tile');
 		appConsole.log('Select a tile');
 	});
 
 	domDrawCube.addEventListener('click', ()=> {
+		domDrawCube.blur();
 		console.log('draw cube');
 	});
 
@@ -41,10 +43,12 @@ function Input() {
 	////////////////
 
 	domDelTile.addEventListener('click', ()=> {
+		domDelTile.blur();
 		console.log('delete tile');
 	});
 
 	domDelCube.addEventListener('click', ()=> {
+		domDelCube.blur();
 		console.log('delete cube');
 	});
 
@@ -77,6 +81,8 @@ function Input() {
 	////////////////////////////
 
 	document.addEventListener( 'keydown', (e)=> {
+
+		// console.log(e.code)
 		
 		switch( e.code ) {
 
@@ -86,10 +92,53 @@ function Input() {
 				appConsole.log('Abort all functions');
 				break;
 
+			case 'Enter' :
+				validate();
+				break;
+
+			case 'Space' :
+				validate();
+				break;
+
+			case 'ArrowLeft' :
+				requestDirection( 0 );
+				break;
+
+			case 'ArrowUp' :
+				requestDirection( 1 );
+				break;
+
+			case 'ArrowRight' :
+				requestDirection( 2 );
+				break;
+
+			case 'ArrowDown' :
+				requestDirection( 3 );
+				break;
+
 		};
 
 	}, false );
 
+
+
+	function requestDirection( int ) {
+
+		if ( state == 'select-edge' ) {
+			drawer.highlightEdge( int );
+		};
+
+	};
+
+
+
+	function validate() {
+
+		if ( state == 'select-edge' ) {
+			drawer.validateEdge();
+		};
+
+	};
 
 
 
