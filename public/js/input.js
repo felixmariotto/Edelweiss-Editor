@@ -13,12 +13,14 @@ function Input() {
 
 	var mouse = new THREE.Vector2();
 	var rect ;
+	var currentPaint ;
 	var state = 'idle' ;
 	/* LIST OF STATES :
 		select-tile
 		select-edge
 		select-orientation
 		delete-tile
+		paint
 	*/
 
 
@@ -29,6 +31,7 @@ function Input() {
 
 	domDrawTile.addEventListener('click', (e)=> {
 		domDrawTile.blur();
+		abortAll();
 		setState('select-tile');
 		appConsole.log('SELECT a tile for DRAWING');
 	});
@@ -46,6 +49,7 @@ function Input() {
 
 	domDelTile.addEventListener('click', ()=> {
 		domDelTile.blur();
+		abortAll();
 		setState('delete-tile');
 		appConsole.log('SELECT a tile to DELETE');
 	});
@@ -54,6 +58,18 @@ function Input() {
 		domDelCube.blur();
 		console.log('delete cube');
 	});
+
+
+
+	//////////////////
+	///  PÄINTING
+	//////////////////
+
+	function clickPaint( paintName ) {
+		setState( 'paint' );
+		currentPaint = paintName ;
+		appConsole.log( 'SELECT tiles to paint them with ATTRIBUTE : ' + paintName );
+	};
 
 
 
@@ -77,11 +93,15 @@ function Input() {
 
 			atlas.raycast( mouse, 'delete-tile' );
 
+		} else if ( state == 'paint' ) {
+
+			atlas.raycast( mouse, 'paint', currentPaint );
+
 		};
 
 	}, false );
-	
 
+	
 
 
 
@@ -97,9 +117,7 @@ function Input() {
 
 			case 'Escape' :
 				setState('idle');
-				drawer.unselect();
-				atlas.clearTempTiles();
-				appConsole.log('Abort all functions');
+				abortAll();
 				break;
 
 			case 'Enter' :
@@ -173,9 +191,18 @@ function Input() {
 		state = stateString ;
 	};
 
+	function abortAll() {
+		drawer.unselect();
+		atlas.clearTempTiles();
+		appConsole.log('Abort all functions');
+	};
+
+	
+
 
 	return {
-		setState
+		setState,
+		clickPaint
 	};
 
 };

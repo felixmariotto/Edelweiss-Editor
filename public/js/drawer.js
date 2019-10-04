@@ -21,10 +21,8 @@ function Drawer() {
 		raycaster.setFromCamera( mouse, camera );
 		intersects = raycaster.intersectObjects( atlas.meshTiles );
 
-
 		// unselect previous tile
 		unselect();
-
 
 		if ( intersects.length > 0 ) {
 

@@ -12,6 +12,31 @@ function Atlas() {
 		side: THREE.DoubleSide
 	});
 
+	const FALLWALLMAT = new THREE.MeshLambertMaterial({
+		color: 0x9e0000,
+		side: THREE.DoubleSide
+	});
+
+	const LIMITWALLMAT = new THREE.MeshLambertMaterial({
+		color: 0x0f0aa6,
+		side: THREE.DoubleSide
+	});
+
+	const EASYWALLMAT = new THREE.MeshLambertMaterial({
+		color: 0xb0ffa8,
+		side: THREE.DoubleSide
+	});
+
+	const MEDIUMWALLMAT = new THREE.MeshLambertMaterial({
+		color: 0x17ad28,
+		side: THREE.DoubleSide
+	});
+
+	const HARDWALLMAT = new THREE.MeshLambertMaterial({
+		color: 0x057a34,
+		side: THREE.DoubleSide
+	});
+
 	// GROUND MATERIALS
 	const BASICGROUNDMAT = new THREE.MeshLambertMaterial({
 		color: 0x777777,
@@ -48,14 +73,22 @@ function Atlas() {
 
 
 
-	function raycast( mouse, action ) {
+	function raycast( mouse, action, paintName ) {
 
 		raycaster.setFromCamera( mouse, camera );
 		intersects = raycaster.intersectObjects( meshTiles );
 
 		if ( intersects.length > 0 ) {
 
-			deleteTile( intersects[0].object );
+			if ( action == "delete-tile" ) {
+
+				deleteTile( intersects[0].object );
+
+			} else if ( action == 'paint' ) {
+
+				paintTile( intersects[0].object, paintName );
+
+			};
 
 		};
 
@@ -88,6 +121,16 @@ function Atlas() {
 		meshTile.geometry.dispose();
 
 		scene.remove( meshTile );
+	};
+
+
+
+
+	function paintTile( meshTile, paintName ) {
+
+		meshTile.logicTile.type = paintName ;
+		meshTile.material = getMaterial( paintName );
+
 	};
 
 
@@ -173,12 +216,12 @@ function Atlas() {
 		// GROUND
 		if ( vec1.y == vec2.y ) {
 
-			logicTile.type = 'basic-ground' ;
+			logicTile.type = 'ground-basic' ;
 
 		// WALL
 		} else {
 
-			logicTile.type = 'slip-wall' ;
+			logicTile.type = 'wall-slip' ;
 			logicTile.isWall = true ;
 
 			if ( vec1.z == vec2.z ) {
@@ -204,23 +247,42 @@ function Atlas() {
 
 
 
+	function getMaterial( type ) {
+
+		switch ( type ) {
+
+			case 'ground-basic' :
+				return BASICGROUNDMAT ;
+			
+			case 'wall-limit' :
+				return LIMITWALLMAT ;
+
+			case 'wall-easy' :
+				return EASYWALLMAT ;
+
+			case 'wall-medium' :
+				return MEDIUMWALLMAT ;
+
+			case 'wall-hard' :
+				return HARDWALLMAT ;
+
+			case 'wall-fall' :
+				return FALLWALLMAT ;
+
+			case 'wall-slip' :
+				return SLIPWALLMAT ;
+
+		};
+
+	};
+
+
 
 
 	function MeshTile( logicTile ) {
 
 		// get material according to logicType's type
-		let material ;
-
-		switch ( logicTile.type ) {
-
-			case 'basic-ground' :
-				material = new THREE.MeshLambertMaterial().copy( BASICGROUNDMAT ) ;
-				break;
-			case 'slip-wall' :
-				material = new THREE.MeshLambertMaterial().copy( SLIPWALLMAT ) ;
-				break;
-
-		};
+		let material = getMaterial( logicTile.type );
 
 		let geometry = new THREE.PlaneBufferGeometry( 1, 1, 1 );
 
