@@ -14,6 +14,7 @@ function init() {
 
 	controls = new THREE.OrbitControls( camera, CANVAS );
 	controls.screenSpacePanning = true ;
+	controls.keys = [];
 
 	renderer = new THREE.WebGLRenderer({ canvas: CANVAS, antialias:true, alpha:true });
 	renderer.setSize( rect.width, rect.height );
@@ -26,6 +27,7 @@ function init() {
 	atlas = Atlas();
 	drawer = Drawer();
 	input = Input();
+	appConsole = AppConsole();
 
 	loop();
 };

@@ -47,27 +47,25 @@ function Atlas() {
 
 	function Tile( vec1, vec2 ) {
 
+		let logicTile = LogicTile( vec1, vec2 );
+
 		// GROUND
 		if ( vec1.y == vec2.y ) {
 
-			let logicTile = LogicTile( vec1, vec2 );
 			logicTile.type = 'basic-ground' ;
-			let meshTile = MeshTile( logicTile ) ;
-			scene.add( meshTile );
-			meshTiles.push( meshTile );
-
 
 		// WALL
 		} else {
 
-			let logicTile = LogicTile( vec1, vec2 );
 			logicTile.type = 'slip-wall' ;
 			logicTile.isWall = true ;
-			let meshTile = MeshTile( logicTile ) ;
-			scene.add( meshTile );
-			meshTiles.push( meshTile );
 
 		};
+
+		let meshTile = MeshTile( logicTile ) ;
+		meshTile.logicTile = logicTile ;
+		scene.add( meshTile );
+		meshTiles.push( meshTile );
 
 	};
 
