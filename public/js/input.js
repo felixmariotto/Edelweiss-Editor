@@ -18,6 +18,7 @@ function Input() {
 		select-tile
 		select-edge
 		select-orientation
+		delete-tile
 	*/
 
 
@@ -29,7 +30,7 @@ function Input() {
 	domDrawTile.addEventListener('click', (e)=> {
 		domDrawTile.blur();
 		setState('select-tile');
-		appConsole.log('Select a tile');
+		appConsole.log('SELECT a tile for DRAWING');
 	});
 
 	domDrawCube.addEventListener('click', ()=> {
@@ -45,7 +46,8 @@ function Input() {
 
 	domDelTile.addEventListener('click', ()=> {
 		domDelTile.blur();
-		console.log('delete tile');
+		setState('delete-tile');
+		appConsole.log('SELECT a tile to DELETE');
 	});
 
 	domDelCube.addEventListener('click', ()=> {
@@ -68,7 +70,13 @@ function Input() {
 		mouse.y = - ( (event.clientY - rect.top) / rect.height ) * 2 + 1;
 
 		if ( state == 'select-tile' ) {
+
 			drawer.raycast( mouse );
+
+		} else if ( state == 'delete-tile' ) {
+
+			atlas.raycast( mouse, 'delete-tile' );
+
 		};
 
 	}, false );

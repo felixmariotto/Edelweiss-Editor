@@ -1,6 +1,11 @@
 
 function Atlas() {
 
+
+	const raycaster = new THREE.Raycaster();
+	var intersects ;
+
+
 	// WALLS MATERIALS
 	const SLIPWALLMAT = new THREE.MeshLambertMaterial({
 		color: 0xff9cc7,
@@ -37,6 +42,24 @@ function Atlas() {
 		new THREE.Vector3( -1, 0, 0 ),
 		new THREE.Vector3( -1, 1, 1 )
 	);
+
+
+
+
+
+
+	function raycast( mouse, action ) {
+
+		raycaster.setFromCamera( mouse, camera );
+		intersects = raycaster.intersectObjects( meshTiles );
+
+		if ( intersects.length > 0 ) {
+
+			deleteTile( intersects[0].object );
+
+		};
+
+	};
 
 
 
@@ -246,6 +269,7 @@ function Atlas() {
 
 
 	return {
+		raycast,
 		meshTiles,
 		TempTile,
 		clearTempTiles,
