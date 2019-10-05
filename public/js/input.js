@@ -37,8 +37,17 @@ function Input() {
 		domExportOBJ.blur();
 		abortAll();
 		setState('export-obj');
-		appConsole.log('Choose a path on the system to save a PLY of the scene');
-	})
+		appConsole.log('Saving of the logic Scene on the system as OBJ model');
+	});
+
+
+	domSaveServer.addEventListener('click', (e)=> {
+		importExport.sendSceneToServer();
+		domSaveServer.blur();
+		abortAll();
+		setState('save-server');
+		appConsole.log('Sending of the logic Scene to the database');
+	});
 
 
 
