@@ -346,13 +346,47 @@ function Atlas() {
 
 
 
+	function getSceneGraph() {
+
+		let sceneGraph = {} ;
+		let min ;
+		let stage ;
+
+		meshTiles.forEach( (meshTile)=> {
+
+			min = Math.min( meshTile.logicTile.points[0].y,
+							meshTile.logicTile.points[1].y
+						);
+
+			stage = Math.floor( min / 3 ) * 3 ;
+
+			if ( !sceneGraph[ stage ] ) {
+
+				sceneGraph[ stage ] = [ meshTile.logicTile ];
+
+			} else {
+
+				sceneGraph[ stage ].push( meshTile.logicTile );
+
+			};
+
+		});
+
+		return sceneGraph ;
+
+	};
+
+
+
+
 	return {
 		raycast,
 		meshTiles,
 		TempTile,
 		clearTempTiles,
 		highlightTile,
-		validateTile
+		validateTile,
+		getSceneGraph
 	};
 
 

@@ -18,7 +18,7 @@ function ImportExport() {
 
     function exportLogicJSON() {
 
-        let sceneGraph = JSON.stringify( {a:1} ) ;
+        let sceneGraph = JSON.stringify( atlas.getSceneGraph() ) ;
 
         var file = new File([sceneGraph], "sceneGraph.json", {type: "text/plain;charset=utf-8"});
         saveAs(file);
