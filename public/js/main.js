@@ -1,7 +1,7 @@
 
 
 var scene, camera, renderer, stats, controls, atlas, drawer, input ;
-var appConsole ;
+var appConsole, importExport ;
 
 const CANVAS = document.getElementById('world');
 

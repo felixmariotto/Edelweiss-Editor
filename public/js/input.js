@@ -10,6 +10,8 @@ function Input() {
 	const domDelTile = document.getElementById('delete-tile');
 	const domDelCube = document.getElementById('delete-cube');
 
+	const domExportOBJ = document.getElementById('export-obj');
+	const domSaveServer = document.getElementById('save-server');
 
 	var mouse = new THREE.Vector2();
 	var rect ;
@@ -21,7 +23,23 @@ function Input() {
 		select-orientation
 		delete-tile
 		paint
+		export-obj
 	*/
+
+
+
+	/////////////////
+	///  TRANSFER
+	/////////////////
+
+	domExportOBJ.addEventListener('click', (e)=> {
+		importExport.exportSceneOBJ();
+		domExportOBJ.blur();
+		abortAll();
+		setState('export-obj');
+		appConsole.log('Choose a path on the system to save a PLY of the scene');
+	})
+
 
 
 

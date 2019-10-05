@@ -35,6 +35,7 @@ function init() {
 	drawer = Drawer();
 	input = Input();
 	appConsole = AppConsole();
+	importExport = ImportExport();
 
 	loop();
 };

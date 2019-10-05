@@ -125,6 +125,8 @@
 	<script src="./libs/three.js"></script>
 	<script src="./libs/stats.min.js"></script>
 	<script src="./libs/OrbitControls.js"></script>
+	<script src="./libs/OBJExporter.js"></script>
+	<script src="./libs/FileSaver.js"></script>
 
 	<script src="./js/init.js"></script>
 	<script src="./js/loop.js"></script>
@@ -132,6 +134,7 @@
 	<script src="./js/drawer.js"></script>
 	<script src="./js/input.js"></script>
 	<script src="./js/appConsole.js"></script>
+	<script src="./js/ImportExport.js"></script>
 
 </head>
 
@@ -166,6 +169,12 @@
 				<h2>Delete</h2>
 				<button id="delete-tile">Tiles</button>
 				<button id="delete-cube">Cubes</button>
+			</div>
+
+			<div id="transfer-menu" class="sub-menu">
+				<h2>Transfer</h2>
+				<button id="export-obj">Export Logic OBJ</button>
+				<button id="save-server">Save Logic Server</button>
 			</div>
 
 			<div id="paint-menu" class="sub-menu">
