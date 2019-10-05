@@ -128,8 +128,24 @@ function Atlas() {
 
 	function paintTile( meshTile, paintName ) {
 
-		meshTile.logicTile.type = paintName ;
-		meshTile.material = getMaterial( paintName );
+		if ( meshTile.logicTile.isWall && paintName.indexOf('wall') > -1 ) {
+
+			applyPaint();
+
+		} else if ( !meshTile.logicTile.isWall && paintName.indexOf('ground') > -1 ) {
+
+			applyPaint();
+
+		} else {
+
+			appConsole.log( 'Choose a paint appropriate to the type of tile' );
+
+		};
+
+		function applyPaint() {
+			meshTile.logicTile.type = paintName ;
+			meshTile.material = getMaterial( paintName );
+		};
 
 	};
 
