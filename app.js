@@ -40,11 +40,11 @@ app
 			let client = await POOL.connect();
 
 			client.query(`INSERT INTO scenes
-								color, date, scene VALUES
+								( color, date, scene ) VALUES (
 								'${ req.body.color }',
 								'${ Date.now() }',
 								${ req.body.sceneGraph }
-							`);
+							)`);
 
 			res.send('ok');
 			client.release();
