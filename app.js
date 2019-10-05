@@ -2,15 +2,15 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const path = require('path');
-const { Pool } = require('pg');
 
 const PORT = process.env.PORT || 5000 ;
 
 const app = express();
 
-const pool = new Pool({
-	connectionString: process.env.DATABASE_URL,
-	ssl: true
+const { Pool } = require('pg');
+const POOL = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
 });
 
 
@@ -37,9 +37,9 @@ app
 			// temp
 			console.log(req.body);
 
-			let client = await pool.connect();
+			let client = await POOL.connect();
 
-			await client.query(`INSERT INTO scenes
+			client.query(`INSERT INTO scenes
 								color, date, scene VALUES
 								'${ req.body.color }',
 								'${ Date.now() }',
