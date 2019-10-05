@@ -1,2 +1,2 @@
-# Edelweiss
-WebGL platformer game with special game engine
+# Edelweiss-Engine
+Game engine for the game Edelweiss
