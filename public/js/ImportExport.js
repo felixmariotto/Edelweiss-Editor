@@ -8,7 +8,6 @@ function ImportExport() {
     function exportSceneOBJ() {
 
         var result = exporter.parse( scene );
-        console.log( result );
 
         var file = new File([result], "logicScene.obj", {type: "text/plain;charset=utf-8"});
         saveAs(file);
@@ -16,32 +15,20 @@ function ImportExport() {
     };
 
 
-    function sendSceneToServer() {
 
-        let data = {
-            color: "#" + Math.random().toString(16).slice(2, 8),
-            sceneGraph: {a:0}
-        };
-        
-        var req = new XMLHttpRequest();
+    function exportLogicJSON() {
 
-        req.onreadystatechange = function(event) {
-            if (this.readyState == 4) {
-                if (this.status == 200) {
-                    appConsole.log('Scene saved in the Database');
-                };
-            };
-        };
+        let sceneGraph = JSON.stringify( {a:1} ) ;
 
-        req.open('POST', '/logic_scene');
-        req.setRequestHeader('Content-type', 'application/json');
-        req.send( JSON.stringify(data) );
+        var file = new File([sceneGraph], "sceneGraph.json", {type: "text/plain;charset=utf-8"});
+        saveAs(file);
 
     };
 
 
+
     return {
         exportSceneOBJ,
-        sendSceneToServer
+        exportLogicJSON
     };
 };

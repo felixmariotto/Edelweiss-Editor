@@ -11,7 +11,7 @@ function Input() {
 	const domDelCube = document.getElementById('delete-cube');
 
 	const domExportOBJ = document.getElementById('export-obj');
-	const domSaveServer = document.getElementById('save-server');
+	const domExportJSON = document.getElementById('export-json');
 
 	var mouse = new THREE.Vector2();
 	var rect ;
@@ -24,6 +24,7 @@ function Input() {
 		delete-tile
 		paint
 		export-obj
+		export-json
 	*/
 
 
@@ -37,16 +38,16 @@ function Input() {
 		domExportOBJ.blur();
 		abortAll();
 		setState('export-obj');
-		appConsole.log('Saving of the logic Scene on the system as OBJ model');
+		appConsole.log('Saving of tiles MESHES as an OBJ model');
 	});
 
 
-	domSaveServer.addEventListener('click', (e)=> {
-		importExport.sendSceneToServer();
-		domSaveServer.blur();
+	domExportJSON.addEventListener('click', (e)=> {
+		importExport.exportLogicJSON();
+		domExportJSON.blur();
 		abortAll();
-		setState('save-server');
-		appConsole.log('Sending of the logic Scene to the database');
+		setState('export-json');
+		appConsole.log('Saving of tiles LOGIC as an JSON file');
 	});
 
 

@@ -10,7 +10,7 @@ const app = express();
 const { Pool } = require('pg');
 const POOL = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: true
+  ssl: false
 });
 
 
