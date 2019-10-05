@@ -43,7 +43,7 @@ app
 								( color, date, scene ) VALUES (
 								'${ req.body.color }',
 								'${ Date.now() }',
-								'${ req.body.sceneGraph }'
+								'${ JSON.stringify( req.body.sceneGraph ) }'
 							)`);
 
 			res.send('ok');
