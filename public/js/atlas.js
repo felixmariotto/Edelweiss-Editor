@@ -43,6 +43,11 @@ function Atlas() {
 		side: THREE.DoubleSide
 	});
 
+	const STARTGROUNDMAT = new THREE.MeshLambertMaterial({
+		color: 0x3dffff,
+		side: THREE.DoubleSide
+	});
+
 	// TEMP TILES MATERIAL
 	const TEMPTILEMAT = new THREE.MeshLambertMaterial({
 		color: 0xffffff,
@@ -54,6 +59,7 @@ function Atlas() {
 	var meshTiles = [];
 	var tempTiles = [];
 	var highlightedTempTile;
+	var startTile;
 
 
 
@@ -130,11 +136,17 @@ function Atlas() {
 
 		if ( meshTile.logicTile.isWall && paintName.indexOf('wall') > -1 ) {
 
-			applyPaint();
+			applyPaint( meshTile, paintName );
 
 		} else if ( !meshTile.logicTile.isWall && paintName.indexOf('ground') > -1 ) {
 
-			applyPaint();
+			if ( paintName == 'ground-start' && startTile ) {
+				applyPaint( startTile, 'ground-basic' );
+			};
+
+			startTile = meshTile ;
+
+			applyPaint( meshTile, paintName );
 
 		} else {
 
@@ -142,7 +154,7 @@ function Atlas() {
 
 		};
 
-		function applyPaint() {
+		function applyPaint( meshTile, paintName ) {
 			meshTile.logicTile.type = paintName ;
 			meshTile.material = getMaterial( paintName );
 		};
@@ -269,6 +281,9 @@ function Atlas() {
 
 			case 'ground-basic' :
 				return BASICGROUNDMAT ;
+
+			case 'ground-start' :
+				return STARTGROUNDMAT ;
 			
 			case 'wall-limit' :
 				return LIMITWALLMAT ;
@@ -348,17 +363,17 @@ function Atlas() {
 
 	function getSceneGraph() {
 
-		let sceneGraph = {} ;
+		let sceneGraph = [] ;
 		let min ;
 		let stage ;
 
 		meshTiles.forEach( (meshTile)=> {
 
-			min = Math.min( meshTile.logicTile.points[0].y,
+			stage = Math.min( meshTile.logicTile.points[0].y,
 							meshTile.logicTile.points[1].y
 						);
 
-			stage = Math.floor( min / 3 ) * 3 ;
+			stage = Math.floor( stage );
 
 			if ( !sceneGraph[ stage ] ) {
 
@@ -371,6 +386,8 @@ function Atlas() {
 			};
 
 		});
+
+		console.log( sceneGraph );
 
 		return sceneGraph ;
 
