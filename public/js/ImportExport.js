@@ -27,8 +27,32 @@ function ImportExport() {
 
 
 
+    function openSceneJSON( evt ) {
+
+        var tgt = evt.target || window.event.srcElement,
+            files = tgt.files;
+    
+        // FileReader support
+        if (FileReader && files && files.length) {
+
+            var fr = new FileReader();
+
+            fr.onload = function () {
+
+                atlas.openScene( fr.result )
+            };
+
+            fr.readAsText(files[0]);
+
+        };
+
+    };
+
+
+
     return {
         exportSceneOBJ,
-        exportLogicJSON
+        exportLogicJSON,
+        openSceneJSON
     };
 };

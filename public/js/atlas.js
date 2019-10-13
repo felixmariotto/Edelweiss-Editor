@@ -119,6 +119,18 @@ function Atlas() {
 
 
 
+	function clearScene() {
+
+		for (let i = meshTiles.length - 1 ; i > -1 ; i--) {
+
+			deleteTile( meshTiles[i] );
+
+		};
+
+	};
+
+
+
 	function deleteTile( meshTile ) {
 
 		meshTiles.splice( meshTiles.indexOf(meshTile), 1 );
@@ -387,9 +399,32 @@ function Atlas() {
 
 		});
 
-		console.log( sceneGraph );
+		// console.log( sceneGraph );
 
 		return sceneGraph ;
+
+	};
+
+
+
+
+	function openScene( sceneGraph ) {
+
+		clearScene();
+
+		JSON.parse(sceneGraph).forEach( (stage)=> {
+
+			stage.forEach( (meshTile)=> {
+
+				let tile = Tile(
+					meshTile.points[0],
+					meshTile.points[1]
+				);
+				paintTile( tile, meshTile.type );
+
+			});
+
+		});
 
 	};
 
@@ -403,7 +438,8 @@ function Atlas() {
 		clearTempTiles,
 		highlightTile,
 		validateTile,
-		getSceneGraph
+		getSceneGraph,
+		openScene
 	};
 
 

@@ -33,9 +33,9 @@ function init() {
 
 	atlas = Atlas();
 	drawer = Drawer();
-	input = Input();
 	appConsole = AppConsole();
 	importExport = ImportExport();
+	input = Input();
 
 	loop();
 };

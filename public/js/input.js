@@ -12,6 +12,7 @@ function Input() {
 
 	const domExportOBJ = document.getElementById('export-obj');
 	const domExportJSON = document.getElementById('export-json');
+	const domOpenJSON = document.getElementById('open-json');
 
 	var mouse = new THREE.Vector2();
 	var rect ;
@@ -25,6 +26,7 @@ function Input() {
 		paint
 		export-obj
 		export-json
+		open-json
 	*/
 
 
@@ -49,6 +51,17 @@ function Input() {
 		setState('export-json');
 		appConsole.log('Saving of tiles LOGIC as an JSON file');
 	});
+
+
+	domOpenJSON.addEventListener('click', (e)=> {
+		domOpenJSON.blur();
+		abortAll();
+		setState('open-json');
+		appConsole.log('Choose a JSON scene in your disk to OPEN it')
+	});
+
+
+    domOpenJSON.onchange = importExport.openSceneJSON;
 
 
 

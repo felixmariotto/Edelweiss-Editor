@@ -17,6 +17,11 @@
 			margin: 5px;
 		}
 
+		.button {
+			padding: 5px;
+			margin: 5px;
+		}
+
 		button:focus {
 			outline: none;
 		}
@@ -175,6 +180,10 @@
 				<h2>Transfer</h2>
 				<button id="export-obj">Export Meshes as OBJ</button>
 				<button id="export-json">Export Logic as JSON</button>
+				<div class='button'>
+					<label for="open-json">open JSON</label><br>
+					<input type='file' id='open-json' name='open-json'>
+				</div>
 			</div>
 
 			<div id="paint-menu" class="sub-menu">
