@@ -7,6 +7,16 @@ function Atlas() {
 	var filtered = false ;
 
 
+
+
+	// CUBES MATERIALS
+	const INERTCUBEMAT = new THREE.MeshLambertMaterial({
+		color: 0x0bba8b
+	});
+
+
+
+
 	// WALLS MATERIALS
 	const SLIPWALLMAT = new THREE.MeshLambertMaterial({
 		color: 0xff9cc7,
@@ -38,6 +48,9 @@ function Atlas() {
 		side: THREE.DoubleSide
 	});
 
+
+
+
 	// GROUND MATERIALS
 	const BASICGROUNDMAT = new THREE.MeshLambertMaterial({
 		color: 0x777777,
@@ -49,6 +62,9 @@ function Atlas() {
 		side: THREE.DoubleSide
 	});
 
+
+
+
 	// TEMP TILES MATERIAL
 	const TEMPTILEMAT = new THREE.MeshLambertMaterial({
 		color: 0xffffff,
@@ -56,6 +72,8 @@ function Atlas() {
 		opacity: 0.5,
 		side: THREE.DoubleSide
 	});
+
+
 
 	var meshTiles = [];
 	var tempTiles = [];
@@ -76,6 +94,13 @@ function Atlas() {
 		new THREE.Vector3( -1, 0, 0 ),
 		new THREE.Vector3( -1, 1, 1 )
 	);
+
+
+
+
+
+
+
 
 
 
@@ -125,11 +150,25 @@ function Atlas() {
 
 				appConsole.log('TAG REMOVED from the element');
 
+			} else if ( action == 'draw-cube' ) {
+
+				newCube( intersects[0].point );
+
 			};
 
 		};
 
 	};
+
+
+	
+
+
+
+
+
+
+
 
 
 
@@ -150,6 +189,12 @@ function Atlas() {
 
 
 
+
+
+
+
+
+
 	function clearScene() {
 
 		for (let i = meshTiles.length - 1 ; i > -1 ; i--) {
@@ -162,6 +207,11 @@ function Atlas() {
 
 
 
+
+
+
+
+
 	function deleteTile( meshTile ) {
 
 		meshTiles.splice( meshTiles.indexOf(meshTile), 1 );
@@ -171,6 +221,12 @@ function Atlas() {
 
 		scene.remove( meshTile );
 	};
+
+
+
+
+
+
 
 
 
@@ -207,6 +263,12 @@ function Atlas() {
 
 
 
+
+
+
+
+
+
 	function validateTile() {
 
 		if ( tempTiles.length > 0 ) {
@@ -237,6 +299,12 @@ function Atlas() {
 
 
 
+
+
+
+
+
+
 	function highlightTile( int ) {
 
 		tempTiles.forEach( (meshTile)=> {
@@ -247,6 +315,12 @@ function Atlas() {
 		tempTiles[ int ].visible = true ;
 
 	};
+
+
+
+
+
+
 
 
 
@@ -275,6 +349,12 @@ function Atlas() {
 
 		meshTile.material = new THREE.MeshLambertMaterial().copy( TEMPTILEMAT );
 	};
+
+
+
+
+
+
 
 
 
@@ -314,6 +394,59 @@ function Atlas() {
 		return meshTile ;
 
 	};
+
+
+
+
+
+
+
+
+	function newCube( position ) {
+
+		let logicCube = {
+			position,
+			type: 'inert'
+			// tag
+			// interactive
+		};
+
+		let meshCube = MeshCube( logicCube );
+		meshCube.logicCube = logicCube ;
+		scene.add( meshCube );
+		meshCubes.push( meshCube );
+
+	};
+
+
+
+
+	function MeshCube( logicCube ) {
+
+		let material = getCubeMaterial( logicCube.type );
+		let geometry = new THREE.BoxBufferGeometry( 0.4, 0.4, 0.4 );
+		let mesh = new THREE.Mesh( geometry, material );
+
+		mesh.position.copy( logicCube.position );
+
+		return mesh ;
+
+	};
+
+
+	function getCubeMaterial( cubeMatName ) {
+
+		switch ( cubeMatName ) {
+
+			case 'inert' :
+				return INERTCUBEMAT ;
+
+		};
+
+	};
+
+
+
 
 
 
@@ -396,6 +529,7 @@ function Atlas() {
 			points: [vec1, vec2]
 			// type
 			// isWall
+			// isXAligned
 		};
 
 		return logicTile ;

@@ -10,6 +10,8 @@ function Input() {
 	const domDelTile = document.getElementById('delete-tile');
 	const domDelCube = document.getElementById('delete-cube');
 
+	const domMoveCube = document.getElementById('move-cube');
+
 	const domFilterTag = document.getElementById('filter-tagged');
 	const domShowTag = document.getElementById('show-tag');
 	const domAssignTag = document.getElementById('assign-tag');
@@ -28,18 +30,27 @@ function Input() {
 	var currentElement ;
 	var currentPaint ;
 	var state = 'idle' ;
+
 	/* LIST OF STATES :
+
 		select-tile
 		select-edge
 		select-orientation
 		delete-tile
+
 		paint
+
 		export-obj
 		export-json
 		open-json
+
 		show-tag
 		assign-tag
 		delete-tag
+
+		draw-cube
+		delete-cube
+		select-cube
 	*/
 
 
@@ -79,27 +90,20 @@ function Input() {
 
 
 
-	//////////////
-	//  DRAWING
+
+	/////////////
+	///  MOVE
 	///////////////
 
-	domDrawTile.addEventListener('click', (e)=> {
-		domDrawTile.blur();
-		abortAll();
-		setState('select-tile');
-		appConsole.log('SELECT a tile for DRAWING');
-	});
-
-	domDrawCube.addEventListener('click', ()=> {
-		domDrawCube.blur();
-		console.log('draw cube');
-	});
+	
 
 
 
-	/////////////////
-	// DELETION
-	////////////////
+
+
+	//////////////
+	//  TILES
+	///////////////
 
 	domDelTile.addEventListener('click', ()=> {
 		domDelTile.blur();
@@ -108,9 +112,41 @@ function Input() {
 		appConsole.log('SELECT a tile to DELETE');
 	});
 
+	domDrawTile.addEventListener('click', (e)=> {
+		domDrawTile.blur();
+		abortAll();
+		setState('select-tile');
+		appConsole.log('SELECT a tile for DRAWING');
+	});
+
+
+
+
+
+
+	/////////////////
+	// 	 CUBES
+	////////////////
+
+	domDrawCube.addEventListener('click', ()=> {
+		domDrawCube.blur();
+		abortAll();
+		setState('draw-cube');
+		appConsole.log('CLICK to position a new CUBE');
+	});
+
 	domDelCube.addEventListener('click', ()=> {
 		domDelCube.blur();
-		console.log('delete cube');
+		abortAll();
+		setState('delete-cube');
+		appConsole.log('CLICK on a CUBE to DELETE it');
+	});
+
+	domMoveCube.addEventListener('click', (e)=> {
+		domMoveCube.blur();
+		abortAll();
+		setState('select-cube');
+		appConsole.log('SELECT a CUBE to MOVE it');
 	});
 
 
@@ -173,7 +209,7 @@ function Input() {
 
 		if ( state == 'select-tile' ) {
 
-			drawer.raycast( mouse );
+			drawer.raycast( mouse, 'select-tile' );
 
 		} else if ( state == 'delete-tile' ) {
 
@@ -194,6 +230,10 @@ function Input() {
 		} else if (  state == 'delete-tag') {
 
 			atlas.raycast( mouse, 'delete-tag' );
+
+		} else if ( state == 'draw-cube' ) {
+
+			atlas.raycast( mouse, 'draw-cube' );
 
 		};
 
