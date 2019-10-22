@@ -4,6 +4,7 @@ function Atlas() {
 
 	const raycaster = new THREE.Raycaster();
 	var intersects ;
+	var filtered = false ;
 
 
 	// WALLS MATERIALS
@@ -61,6 +62,8 @@ function Atlas() {
 	var highlightedTempTile;
 	var startTile;
 
+	var meshCubes = [];
+
 
 
 	Tile(
@@ -82,7 +85,7 @@ function Atlas() {
 	function raycast( mouse, action, paintName ) {
 
 		raycaster.setFromCamera( mouse, camera );
-		intersects = raycaster.intersectObjects( meshTiles );
+		intersects = raycaster.intersectObjects( meshTiles.concat( meshCubes ) );
 
 		if ( intersects.length > 0 ) {
 
@@ -93,6 +96,34 @@ function Atlas() {
 			} else if ( action == 'paint' ) {
 
 				paintTile( intersects[0].object, paintName );
+
+			} else if ( action == 'show-tag' ) {
+
+				appConsole.log(
+					`the TAG of this element is : ${
+						intersects[0].object.logicTile ?
+								intersects[0].object.logicTile.tag :
+								intersects[0].object.logicCube.tag
+					}`
+				);
+
+			} else if ( action == 'assign-tag' ) {
+
+				input.getNewTag(
+					intersects[0].object.logicTile ?
+							intersects[0].object.logicTile :
+							intersects[0].object.logicCube
+				);
+
+			} else if ( action == 'delete-tag' ) {
+
+				let obj = intersects[0].object.logicTile ?
+								intersects[0].object.logicTile :
+								intersects[0].object.logicCube
+
+				obj.tag = undefined ;
+
+				appConsole.log('TAG REMOVED from the element');
 
 			};
 
@@ -431,6 +462,49 @@ function Atlas() {
 
 
 
+
+	function filterTaggedElements() {
+
+		if ( filtered ) {
+
+			appConsole.log('SHOW all elements');
+
+			meshTiles
+				.concat( meshCubes )
+				.forEach( (mesh)=> {
+					mesh.visible = true
+				});
+
+		} else {
+
+			appConsole.log('HIDE all elements without TAG');
+
+			meshTiles
+				.concat( meshCubes )
+				.forEach( (mesh)=> {
+
+					if ( mesh.logicTile && mesh.logicTile.tag ||
+						 mesh.logicCube && mesh.logicCube.tag ) {
+
+						mesh.visible = true ;
+
+					} else {
+
+						mesh.visible = false ;
+
+					};
+
+				});
+
+		};
+
+		filtered = !filtered ;
+
+	};
+
+
+
+
 	return {
 		raycast,
 		meshTiles,
@@ -439,7 +513,8 @@ function Atlas() {
 		highlightTile,
 		validateTile,
 		getSceneGraph,
-		openScene
+		openScene,
+		filterTaggedElements
 	};
 
 

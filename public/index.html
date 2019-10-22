@@ -17,6 +17,14 @@
 			margin: 5px;
 		}
 
+		.add {
+			color: green;
+		}
+
+		.delete {
+			color: red;
+		}
+
 		.button {
 			padding: 5px;
 			margin: 5px;
@@ -71,6 +79,25 @@
 						color: white;
 						margin: 2px 0px 2px 0px;
 					}
+
+
+
+
+
+
+			#general-input-container {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, 50%);
+				border-style: solid;
+				border-color: white;
+				border-width: 5px;
+				padding: 10px;
+				background-color: black;
+				color: white;
+				display: none;
+			}
 
 
 
@@ -162,29 +189,45 @@
 
 
 
+
+		<div id='general-input-container'>
+			<h2>Input text :</h2>
+			<input type='text' id='general-input-field'>
+			<button onClick="input.onGeneralSubmit()">Submit</button>
+		</div>
+
+
+
+
 		<div id="menu">
 			
-			<div id="draw-menu" class="sub-menu">
-				<h2>Draw</h2>
-				<button id="draw-tile">Tiles</button>
-				<button id="draw-cube">Cubes</button>
+
+
+			<div id="tile-menu" class="sub-menu">
+				<h2>Tiles</h2>
+				<button id="draw-tile" class="add">DRAW</button>
+				<button id="delete-tile" class="delete">DELETE</button>
 			</div>
+
+
 
 			<div id="delete-menu" class="sub-menu">
-				<h2>Delete</h2>
-				<button id="delete-tile">Tiles</button>
-				<button id="delete-cube">Cubes</button>
+				<h2>Cubes</h2>
+				<button id="draw-cube" class="add">DRAW</button>
+				<button id="delete-cube" class="delete">DELETE</button>
 			</div>
 
-			<div id="transfer-menu" class="sub-menu">
-				<h2>Transfer</h2>
-				<button id="export-obj">Export Meshes as OBJ</button>
-				<button id="export-json">Export Logic as JSON</button>
-				<div class='button'>
-					<label for="open-json">open JSON</label><br>
-					<input type='file' id='open-json' name='open-json'>
-				</div>
+			
+
+			<div id='tag-menu' class="sub-menu">
+				<h2>Tags</h2>
+				<button id="filter-tagged">Filter tagged elements</button>
+				<button id="show-tag">Show element's tag</button>
+				<button id="assign-tag" class="add">ASSIGN</button>
+				<button id="delete-tag" class="delete">DELETE</button>
 			</div>
+
+			
 
 			<div id="paint-menu" class="sub-menu">
 				<h2>Paint</h2>
@@ -202,53 +245,14 @@
 
 
 
-			<div id="view-menu" class="sub-menu">
-				<h2>Layers</h2>
-
-				<div id="checkboxes">
-
-					<!-- TILES -->
-					
-					<div>
-					  <input type="checkbox" id="tiles" name="tiles" checked>
-					  <label for="tiles">Tiles</label>
-					</div>
-
-						<div class="sub-box">
-						  <input type="checkbox" id="wall-easy" name="wall-easy" checked>
-						  <label for="wall-easy">Wall - Easy</label>
-						</div>
-
-						<div class="sub-box">
-						  <input type="checkbox" id="wall-medium" name="wall-medium" checked>
-						  <label for="wall-medium">Wall - Medium</label>
-						</div>
-
-						<div class="sub-box">
-						  <input type="checkbox" id="wall-hard" name="wall-hard" checked>
-						  <label for="wall-hard">Wall - Hard</label>
-						</div>
-
-
-					<br>
-
-					<div>
-					  <input type="checkbox" id="tiles" name="tiles" checked>
-					  <label for="tiles">Tiles</label>
-					</div>
-
-						<div class="sub-box">
-						  <input type="checkbox" id="wind-top" name="wind-top" checked>
-						  <label for="wind-top">Wind - Top</label>
-						</div>
-
-						<div class="sub-box">
-						  <input type="checkbox" id="wind-front" name="wind-front" checked>
-						  <label for="wind-front">Wind - Front</label>
-						</div>
-
+			<div id="transfer-menu" class="sub-menu">
+				<h2>Transfer</h2>
+				<button id="export-obj">Export Meshes as OBJ</button>
+				<button id="export-json">Export Logic as JSON</button>
+				<div class='button'>
+					<label for="open-json">open JSON</label><br>
+					<input type='file' id='open-json' name='open-json'>
 				</div>
-
 			</div>
 
 

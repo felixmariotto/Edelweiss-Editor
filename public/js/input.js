@@ -10,12 +10,22 @@ function Input() {
 	const domDelTile = document.getElementById('delete-tile');
 	const domDelCube = document.getElementById('delete-cube');
 
+	const domFilterTag = document.getElementById('filter-tagged');
+	const domShowTag = document.getElementById('show-tag');
+	const domAssignTag = document.getElementById('assign-tag');
+	const domDeleteTag = document.getElementById('delete-tag');
+
 	const domExportOBJ = document.getElementById('export-obj');
 	const domExportJSON = document.getElementById('export-json');
 	const domOpenJSON = document.getElementById('open-json');
 
+	
+	const domGeneralInputContainer = document.getElementById('general-input-container');
+	const domGeneralInputField = document.getElementById('general-input-field');
+
 	var mouse = new THREE.Vector2();
 	var rect ;
+	var currentElement ;
 	var currentPaint ;
 	var state = 'idle' ;
 	/* LIST OF STATES :
@@ -27,6 +37,9 @@ function Input() {
 		export-obj
 		export-json
 		open-json
+		show-tag
+		assign-tag
+		delete-tag
 	*/
 
 
@@ -115,6 +128,38 @@ function Input() {
 
 
 
+
+	///////////////
+	///	  TAGS
+	///////////////
+
+	domFilterTag.addEventListener('click', ()=> {
+		domFilterTag.blur();
+		atlas.filterTaggedElements();
+	});
+
+	domShowTag.addEventListener('click', ()=> {
+		domShowTag.blur();
+		setState('show-tag');
+		appConsole.log('SELECT an ELEMENT to show its tag');
+	});
+
+	domAssignTag.addEventListener('click', ()=> {
+		domAssignTag.blur();
+		setState('assign-tag');
+		appConsole.log('SELECT an ELEMENT to ASSIGN a new TAG to it');
+	});
+
+	domDeleteTag.addEventListener('click', ()=> {
+		domDeleteTag.blur();
+		setState('delete-tag');
+		appConsole.log('SELECT an ELEMENT to REMOVE any TAG from it');
+	});
+
+
+
+
+
 	///////////////////////////
 	///  CANVAS INTERACTION
 	//////////////////////////
@@ -137,6 +182,18 @@ function Input() {
 		} else if ( state == 'paint' ) {
 
 			atlas.raycast( mouse, 'paint', currentPaint );
+
+		} else if ( state == 'show-tag' ) {
+
+			atlas.raycast( mouse, 'show-tag' );
+
+		} else if ( state == 'assign-tag' ) {
+
+			atlas.raycast( mouse, 'assign-tag' );
+
+		} else if (  state == 'delete-tag') {
+
+			atlas.raycast( mouse, 'delete-tag' );
 
 		};
 
@@ -232,18 +289,36 @@ function Input() {
 		state = stateString ;
 	};
 
+
 	function abortAll() {
 		drawer.unselect();
 		atlas.clearTempTiles();
 		appConsole.log('Abort all functions');
 	};
 
+
+	function getNewTag( element ) {
+		currentElement = element ;
+		setState('get-tag-name');
+		appConsole.log('WRITE new TAG NAME');
+		domGeneralInputField.value = '';
+		domGeneralInputContainer.style.display = 'inherit' ;
+	};
+
+
+	function onGeneralSubmit( e ) {
+		currentElement.tag = domGeneralInputField.value ;
+		appConsole.log( `element's TAG set to '${ domGeneralInputField.value }'` )
+		domGeneralInputContainer.style.display = 'none' ;
+	};
 	
 
 
 	return {
 		setState,
-		clickPaint
+		clickPaint,
+		getNewTag,
+		onGeneralSubmit
 	};
 
 };
