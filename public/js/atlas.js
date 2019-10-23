@@ -116,7 +116,11 @@ function Atlas() {
 
 			if ( action == "delete-tile" ) {
 
-				deleteTile( intersects[0].object );
+				if ( meshTiles.indexOf( intersects[0].object ) > -1 ) {
+
+					deleteTile( intersects[0].object );
+
+				};
 
 			} else if ( action == 'paint' ) {
 
@@ -153,6 +157,14 @@ function Atlas() {
 			} else if ( action == 'draw-cube' ) {
 
 				newCube( intersects[0].point );
+
+			} else if ( action == 'delete-cube' ) {
+
+				if ( meshCubes.indexOf( intersects[0].object ) > -1 ) {
+
+					deleteCube( intersects[0].object );
+
+				};
 
 			};
 
@@ -220,6 +232,22 @@ function Atlas() {
 		meshTile.geometry.dispose();
 
 		scene.remove( meshTile );
+	};
+
+
+
+
+
+
+
+	function deleteCube( meshCube ) {
+
+		meshCubes.splice( meshCubes.indexOf(meshCube), 1 );
+
+		meshCube.material.dispose();
+		meshCube.geometry.dispose();
+
+		scene.remove( meshCube );
 	};
 
 
@@ -415,6 +443,8 @@ function Atlas() {
 		meshCube.logicCube = logicCube ;
 		scene.add( meshCube );
 		meshCubes.push( meshCube );
+
+		input.moveCube( meshCube );
 
 	};
 

@@ -25,10 +25,22 @@ function Input() {
 	const domGeneralInputContainer = document.getElementById('general-input-container');
 	const domGeneralInputField = document.getElementById('general-input-field');
 
+
 	var mouse = new THREE.Vector2();
 	var rect ;
 	var currentElement ;
 	var currentPaint ;
+
+
+	var transformControl = new THREE.TransformControls( camera, renderer.domElement );
+	scene.add( transformControl );
+
+	transformControl.addEventListener( 'dragging-changed', function ( event ) {
+		controls.enabled = ! event.value;
+	});
+
+
+
 	var state = 'idle' ;
 
 	/* LIST OF STATES :
@@ -51,6 +63,7 @@ function Input() {
 		draw-cube
 		delete-cube
 		select-cube
+		move-cube
 	*/
 
 
@@ -150,6 +163,16 @@ function Input() {
 	});
 
 
+	function moveCube( meshCube ) {
+		setState('move-cube');
+		appConsole.log('DRAG cube in the scene');
+		transformControl.attach( meshCube );
+	};
+
+
+
+
+
 
 	//////////////////
 	///  PÄINTING
@@ -234,6 +257,10 @@ function Input() {
 		} else if ( state == 'draw-cube' ) {
 
 			atlas.raycast( mouse, 'draw-cube' );
+
+		} else if ( state == 'delete-cube' ) {
+
+			atlas.raycast( mouse, 'delete-cube' );
 
 		};
 
@@ -333,6 +360,7 @@ function Input() {
 	function abortAll() {
 		drawer.unselect();
 		atlas.clearTempTiles();
+		transformControl.detach();
 		appConsole.log('Abort all functions');
 	};
 
@@ -358,7 +386,8 @@ function Input() {
 		setState,
 		clickPaint,
 		getNewTag,
-		onGeneralSubmit
+		onGeneralSubmit,
+		moveCube
 	};
 
 };
