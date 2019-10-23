@@ -480,11 +480,11 @@ function Atlas() {
 
 
 
-	function newCube( position ) {
+	function newCube( position, skipMoving ) {
 
 		let logicCube = {
 			position,
-			type: 'inert'
+			type: 'cube-inert'
 			// tag
 			// interactive
 		};
@@ -494,7 +494,11 @@ function Atlas() {
 		scene.add( meshCube );
 		meshCubes.push( meshCube );
 
-		input.moveCube( meshCube );
+		if ( !skipMoving ) {
+			input.moveCube( meshCube );
+		};
+
+		return meshCube ;
 
 	};
 
@@ -503,7 +507,7 @@ function Atlas() {
 
 	function MeshCube( logicCube ) {
 
-		let material = getCubeMaterial( logicCube.type );
+		let material = getMaterial( logicCube.type );
 		let geometry = new THREE.BoxBufferGeometry(
 			CUBEWIDTH,
 			CUBEWIDTH,
@@ -514,18 +518,6 @@ function Atlas() {
 		mesh.position.copy( logicCube.position );
 
 		return mesh ;
-
-	};
-
-
-	function getCubeMaterial( cubeMatName ) {
-
-		switch ( cubeMatName ) {
-
-			case 'inert' :
-				return INERTCUBEMAT ;
-
-		};
 
 	};
 
@@ -703,17 +695,34 @@ function Atlas() {
 
 		clearScene();
 
-		JSON.parse(sceneGraph).forEach( (stage)=> {
+		sceneGraph.tilesGraph.forEach( (stage)=> {
 
-			stage.forEach( (meshTile)=> {
+			stage.forEach( (logicTile)=> {
 
 				let tile = Tile(
-					meshTile.points[0],
-					meshTile.points[1]
+					logicTile.points[0],
+					logicTile.points[1]
 				);
-				paintTile( tile, meshTile.type );
+				paintTile( tile, logicTile.type );
 
 			});
+
+		});
+
+		sceneGraph.cubesGraph.forEach( (stage)=> {
+
+			if ( stage ) {
+
+				stage.forEach( (logicCube)=> {
+
+					console.log( logicCube )
+
+					let cube = newCube( logicCube.position, true );
+					paintTile( cube, logicCube.type );
+
+				});
+
+			};
 
 		});
 

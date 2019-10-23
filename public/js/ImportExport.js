@@ -41,6 +41,22 @@ function ImportExport() {
 
 
 
+    function parseJSON( data ) {
+
+        for ( let valueToReplace of Object.keys( hashTable ) ) {
+
+            text = hashTable[ valueToReplace ]
+            text = text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+
+            data = data.replace( new RegExp( text , 'g' ), valueToReplace );
+
+        };
+
+        return JSON.parse( data ) ;
+    };
+
+
+
     function exportSceneOBJ() {
 
         var result = exporter.parse( scene );
@@ -79,7 +95,14 @@ function ImportExport() {
 
             fr.onload = function () {
 
-                atlas.openScene( fr.result )
+                let data = lzjs.decompress( fr.result );
+
+                let sceneGraph = parseJSON( data );
+
+                console.log( sceneGraph );
+
+                // Initialize atlas with the scene graph
+                atlas.openScene( sceneGraph );
             };
 
             fr.readAsText(files[0]);
