@@ -13,7 +13,15 @@ function Atlas() {
 
 	// CUBES MATERIALS
 	const INERTCUBEMAT = new THREE.MeshLambertMaterial({
-		color: 0x0bba8b
+		color: 0x9d9d9e
+	});
+
+	const INTERACTIVECUBEMAT = new THREE.MeshLambertMaterial({
+		color: 0xffdebd
+	});
+
+	const TRIGGERCUBEMAT = new THREE.MeshLambertMaterial({
+		color: 0x276b00
 	});
 
 
@@ -269,31 +277,63 @@ function Atlas() {
 
 
 
-	function paintTile( meshTile, paintName ) {
+	function paintTile( mesh, paintName ) {
 
-		if ( meshTile.logicTile.isWall && paintName.indexOf('wall') > -1 ) {
+		// We check if its tile paint
+		if ( paintName.indexOf('ground') > -1 ||
+			 paintName.indexOf('wall') > -1 ) {
 
-			applyPaint( meshTile, paintName );
+			if ( mesh.logicTile ) {
 
-		} else if ( !meshTile.logicTile.isWall && paintName.indexOf('ground') > -1 ) {
+				if ( mesh.logicTile.isWall && paintName.indexOf('wall') > -1 ) {
 
-			if ( paintName == 'ground-start' && startTile ) {
-				applyPaint( startTile, 'ground-basic' );
+					applyPaint( mesh, paintName );
+
+				} else if ( !mesh.logicTile.isWall && paintName.indexOf('ground') > -1 ) {
+
+					if ( paintName == 'ground-start' && startTile ) {
+						applyPaint( startTile, 'ground-basic' );
+					};
+
+					startTile = mesh ;
+
+					applyPaint( mesh, paintName );
+
+				} else {
+
+					appConsole.log( 'Choose a paint appropriate to the TYPE OF TILE' );
+
+				};
+
+				function applyPaint( mesh, paintName ) {
+					mesh.logicTile.type = paintName ;
+					mesh.material = getMaterial( paintName );
+				};
+
+			} else {
+
+				appConsole.log( 'You cannot apply a TILE PAINT to a CUBE' );
+
 			};
 
-			startTile = meshTile ;
-
-			applyPaint( meshTile, paintName );
-
+		// If it's not tile paint, then it's cube paint
 		} else {
 
-			appConsole.log( 'Choose a paint appropriate to the type of tile' );
+			if ( mesh.logicCube ) {
 
-		};
+				applyPaint( mesh, paintName );
 
-		function applyPaint( meshTile, paintName ) {
-			meshTile.logicTile.type = paintName ;
-			meshTile.material = getMaterial( paintName );
+				function applyPaint( mesh, paintName ) {
+					mesh.logicCube.type = paintName ;
+					mesh.material = getMaterial( paintName );
+				};
+
+			} else {
+
+				appConsole.log( 'You cannot apply a CUBE PAINT to a TILE' );
+
+			};
+
 		};
 
 	};
@@ -522,6 +562,19 @@ function Atlas() {
 
 			case 'wall-slip' :
 				return SLIPWALLMAT ;
+
+			case 'cube-inert' :
+				return INERTCUBEMAT ;
+
+			case 'cube-interactive' :
+				return INTERACTIVECUBEMAT ;
+
+			case 'cube-trigger' :
+				return TRIGGERCUBEMAT ;
+
+			default :
+				console.error('cannot get material');
+				break;
 
 		};
 
