@@ -699,11 +699,15 @@ function Atlas() {
 
 			stage.forEach( (logicTile)=> {
 
-				let tile = Tile(
+				let meshTile = Tile(
 					logicTile.points[0],
 					logicTile.points[1]
 				);
-				paintTile( tile, logicTile.type );
+				paintTile( meshTile, logicTile.type );
+
+				if ( logicTile.tag ) {
+					meshTile.logicTile.tag = logicTile.tag ;
+				};
 
 			});
 
@@ -715,10 +719,12 @@ function Atlas() {
 
 				stage.forEach( (logicCube)=> {
 
-					console.log( logicCube )
+					let meshCube = newCube( logicCube.position, true );
+					paintTile( meshCube, logicCube.type );
 
-					let cube = newCube( logicCube.position, true );
-					paintTile( cube, logicCube.type );
+					if ( logicCube.tag ) {
+						meshCube.logicCube.tag = logicCube.tag ;
+					};
 
 				});
 
