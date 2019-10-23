@@ -5,6 +5,42 @@ function ImportExport() {
     var exporter = new THREE.OBJExporter();
 
 
+    var hashTable = {
+        true: 't',
+        false: 'f',
+        position: 'p',
+        type: 'k',
+        points: 'v',
+        isWall: 'w',
+        isXAligned: 'i',
+        'ground-basic': 'g',
+        'ground-start': 's',
+        'wall-limit': 'l',
+        'wall-easy': 'e',
+        'wall-medium' : 'm',
+        'wall-hard': 'h',
+        'wall-fall': 'a',
+        'wall-slip': 'c',
+        'cube-inert': 'r',
+        'cube-interactive': 'q',
+        'cube-trigger': 'o'
+    };
+
+
+
+    function hashJSON( data ) {
+
+        for ( let valueToReplace of Object.keys( hashTable ) ) {
+
+            data = data.replace( new RegExp( valueToReplace, 'g' ), hashTable[ valueToReplace ] );
+
+        };
+
+        return data ;
+    };
+
+
+
     function exportSceneOBJ() {
 
         var result = exporter.parse( scene );
@@ -18,9 +54,13 @@ function ImportExport() {
 
     function exportLogicJSON() {
 
-        let sceneGraph = JSON.stringify( atlas.getSceneGraph() ) ;
+        let sceneGraph = atlas.getSceneGraph();
 
-        var file = new File([sceneGraph], "sceneGraph.json", {type: "text/plain;charset=utf-8"});
+        let data = hashJSON( JSON.stringify( sceneGraph ) );
+
+        let compressedData = lzjs.compress( data );
+
+        var file = new File([compressedData], "sceneGraph.json", {type: "text/plain;charset=utf-8"});
         saveAs(file);
 
     };
