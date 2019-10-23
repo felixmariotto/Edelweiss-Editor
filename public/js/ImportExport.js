@@ -6,24 +6,24 @@ function ImportExport() {
 
 
     var hashTable = {
-        true: 't',
-        false: 'f',
-        position: 'p',
-        type: 'k',
-        points: 'v',
-        isWall: 'w',
-        isXAligned: 'i',
-        'ground-basic': 'g',
-        'ground-start': 's',
-        'wall-limit': 'l',
-        'wall-easy': 'e',
-        'wall-medium' : 'm',
-        'wall-hard': 'h',
-        'wall-fall': 'a',
-        'wall-slip': 'c',
-        'cube-inert': 'r',
-        'cube-interactive': 'q',
-        'cube-trigger': 'o'
+        true: '$t',
+        false: '$f',
+        position: '$p',
+        type: '$k',
+        points: '$v',
+        isWall: '$w',
+        isXAligned: '$i',
+        'ground-basic': '$g',
+        'ground-start': '$s',
+        'wall-limit': '$l',
+        'wall-easy': '$e',
+        'wall-medium' : '$m',
+        'wall-hard': '$h',
+        'wall-fall': '$a',
+        'wall-slip': '$c',
+        'cube-inert': '$r',
+        'cube-interactive': '$q',
+        'cube-trigger': '$o'
     };
 
 
