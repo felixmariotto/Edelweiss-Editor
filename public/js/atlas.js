@@ -166,6 +166,14 @@ function Atlas() {
 
 				};
 
+			} else if ( action == 'select-cube' ) {
+
+				if ( meshCubes.indexOf( intersects[0].object ) > -1 ) {
+
+					input.moveCube( intersects[0].object );
+
+				};
+
 			};
 
 		};

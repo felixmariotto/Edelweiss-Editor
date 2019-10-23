@@ -262,6 +262,10 @@ function Input() {
 
 			atlas.raycast( mouse, 'delete-cube' );
 
+		} else if ( state == 'select-cube' ) {
+
+			atlas.raycast( mouse, 'select-cube' );
+
 		};
 
 	}, false );
