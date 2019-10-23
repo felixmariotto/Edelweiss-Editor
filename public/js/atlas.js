@@ -2,6 +2,8 @@
 function Atlas() {
 
 
+	const CUBEWIDTH = 0.4 ;
+
 	const raycaster = new THREE.Raycaster();
 	var intersects ;
 	var filtered = false ;
@@ -462,7 +464,11 @@ function Atlas() {
 	function MeshCube( logicCube ) {
 
 		let material = getCubeMaterial( logicCube.type );
-		let geometry = new THREE.BoxBufferGeometry( 0.4, 0.4, 0.4 );
+		let geometry = new THREE.BoxBufferGeometry(
+			CUBEWIDTH,
+			CUBEWIDTH,
+			CUBEWIDTH
+		);
 		let mesh = new THREE.Mesh( geometry, material );
 
 		mesh.position.copy( logicCube.position );
@@ -576,11 +582,16 @@ function Atlas() {
 
 
 
+
+
 	function getSceneGraph() {
 
-		let sceneGraph = [] ;
+
+		let tilesGraph = [] ;
+		let cubesGraph = [] ;
 		let min ;
 		let stage ;
+
 
 		meshTiles.forEach( (meshTile)=> {
 
@@ -590,19 +601,43 @@ function Atlas() {
 
 			stage = Math.floor( stage );
 
-			if ( !sceneGraph[ stage ] ) {
+			if ( !tilesGraph[ stage ] ) {
 
-				sceneGraph[ stage ] = [ meshTile.logicTile ];
+				tilesGraph[ stage ] = [ meshTile.logicTile ];
 
 			} else {
 
-				sceneGraph[ stage ].push( meshTile.logicTile );
+				tilesGraph[ stage ].push( meshTile.logicTile );
 
 			};
 
 		});
 
-		// console.log( sceneGraph );
+
+		meshCubes.forEach( (meshCube)=> {
+
+			stage = Math.floor( meshCube.position.y );
+			meshCube.logicCube.position.copy( meshCube.position );
+
+			if ( !cubesGraph[ stage ] ) {
+
+				cubesGraph[ stage ] = [ meshCube.logicCube ];
+
+			} else {
+
+				cubesGraph[ stage ].push( meshCube.logicCube );
+
+			};
+
+		});
+
+
+		let sceneGraph = {
+			tilesGraph,
+			cubesGraph
+		};
+
+		console.log( sceneGraph );
 
 		return sceneGraph ;
 
