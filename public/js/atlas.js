@@ -483,7 +483,11 @@ function Atlas() {
 	function newCube( position, skipMoving ) {
 
 		let logicCube = {
-			position,
+			position: new THREE.Vector3(
+				position.x,
+				position.y,
+				position.z
+			),
 			type: 'cube-inert'
 			// tag
 			// interactive
