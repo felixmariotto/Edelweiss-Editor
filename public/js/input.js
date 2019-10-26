@@ -17,7 +17,7 @@ function Input() {
 	const domAssignTag = document.getElementById('assign-tag');
 	const domDeleteTag = document.getElementById('delete-tag');
 
-	const domExportOBJ = document.getElementById('export-obj');
+	const domExportGLTF = document.getElementById('export-gltf');
 	const domExportJSON = document.getElementById('export-json');
 	const domOpenJSON = document.getElementById('open-json');
 
@@ -72,9 +72,9 @@ function Input() {
 	///  TRANSFER
 	/////////////////
 
-	domExportOBJ.addEventListener('click', (e)=> {
-		importExport.exportSceneOBJ();
-		domExportOBJ.blur();
+	domExportGLTF.addEventListener('click', (e)=> {
+		importExport.exportSceneGLTF();
+		domExportGLTF.blur();
 		abortAll();
 		setState('export-obj');
 		appConsole.log('Saving of tiles MESHES as an OBJ model');

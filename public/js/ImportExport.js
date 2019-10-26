@@ -2,7 +2,8 @@
 function ImportExport() {
 
 
-    var exporter = new THREE.OBJExporter();
+    // var exporter = new THREE.OBJExporter();
+    var exporter = new THREE.GLTFExporter();
 
 
     var hashTable = {
@@ -57,12 +58,16 @@ function ImportExport() {
 
 
 
-    function exportSceneOBJ() {
+    function exportSceneGLTF() {
 
-        var result = exporter.parse( scene );
+        exporter.parse( scene, (result)=> {
 
-        var file = new File([result], "logicScene.obj", {type: "text/plain;charset=utf-8"});
-        saveAs(file);
+            var output = JSON.stringify( result, null, 2 );
+
+            var file = new File([output], "logicScene.gltf", {type: "text/plain;charset=utf-8"});
+            saveAs(file);
+
+        } );
 
     };
 
@@ -114,7 +119,7 @@ function ImportExport() {
 
 
     return {
-        exportSceneOBJ,
+        exportSceneGLTF,
         exportLogicJSON,
         openSceneJSON
     };
