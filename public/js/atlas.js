@@ -117,16 +117,35 @@ function Atlas() {
 	);
 
 
-	planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
+
+
+
+
+
+
+
+
+	/////////////////
+	///  PLANES
+	/////////////////
+
+
+	var planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
 	makePlaneHelper( planeFront, 0 );
 
-	planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 3 );
+	var planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 3 );
 	makePlaneHelper( planeLeft, Math.PI / 2 );
 
-	planeRight = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 3 );
+	var planeRight = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 3 );
 	makePlaneHelper( planeRight, Math.PI / 2 );
 
+	var planeMeshes = [
+		planeFront.helper,
+		planeLeft.helper,
+		planeRight.helper
+	];
 
+	var selectedPlane ;
 
 
 	function makePlaneHelper( plane, rotation ) {
@@ -148,6 +167,8 @@ function Atlas() {
 
 		mesh.visible = false ;
 
+		mesh.plane = plane ;
+
 		plane.helper = mesh ;
 
 		scene.add( mesh );
@@ -157,17 +178,24 @@ function Atlas() {
 
 
 	function showPlanes() {
-		planeFront.helper.visible = true ;
-		planeLeft.helper.visible = true ;
-		planeRight.helper.visible = true ;
+		planeFront.helper.visible = !planeFront.helper.visible ;
+		planeLeft.helper.visible = !planeLeft.helper.visible ;
+		planeRight.helper.visible = !planeRight.helper.visible ;
 	};
 
 
-	function hidePlanes() {
-		planeFront.helper.visible = false ;
-		planeLeft.helper.visible = false ;
-		planeRight.helper.visible = false ;
+
+	function movePlane( direction ) {
+
+		selectedPlane.constant += direction ;
+
+		selectedPlane.helper.position.addScaledVector(
+			selectedPlane.normal,
+			direction * -1
+		);
+
 	};
+
 
 
 
@@ -183,68 +211,84 @@ function Atlas() {
 
 	function raycast( mouse, action, paintName ) {
 
-		raycaster.setFromCamera( mouse, camera );
-		intersects = raycaster.intersectObjects( meshTiles.concat( meshCubes ) );
+		if ( action == 'select-plane' ) {
 
-		if ( intersects.length > 0 ) {
+			raycaster.setFromCamera( mouse, camera );
+			intersects = raycaster.intersectObjects( planeMeshes );
 
-			if ( action == "delete-tile" ) {
+			if ( intersects.length > 0 ) {
 
-				if ( meshTiles.indexOf( intersects[0].object ) > -1 ) {
+				input.movePlane();
+				selectedPlane = intersects[0].object.plane ;
 
-					deleteTile( intersects[0].object );
+			};
 
-				};
+		} else {
 
-			} else if ( action == 'paint' ) {
+			raycaster.setFromCamera( mouse, camera );
+			intersects = raycaster.intersectObjects( meshTiles.concat( meshCubes ) );
 
-				paintTile( intersects[0].object, paintName );
+			if ( intersects.length > 0 ) {
 
-			} else if ( action == 'show-tag' ) {
+				if ( action == "delete-tile" ) {
 
-				appConsole.log(
-					`the TAG of this element is : ${
+					if ( meshTiles.indexOf( intersects[0].object ) > -1 ) {
+
+						deleteTile( intersects[0].object );
+
+					};
+
+				} else if ( action == 'paint' ) {
+
+					paintTile( intersects[0].object, paintName );
+
+				} else if ( action == 'show-tag' ) {
+
+					appConsole.log(
+						`the TAG of this element is : ${
+							intersects[0].object.logicTile ?
+									intersects[0].object.logicTile.tag :
+									intersects[0].object.logicCube.tag
+						}`
+					);
+
+				} else if ( action == 'assign-tag' ) {
+
+					input.getNewTag(
 						intersects[0].object.logicTile ?
-								intersects[0].object.logicTile.tag :
-								intersects[0].object.logicCube.tag
-					}`
-				);
-
-			} else if ( action == 'assign-tag' ) {
-
-				input.getNewTag(
-					intersects[0].object.logicTile ?
-							intersects[0].object.logicTile :
-							intersects[0].object.logicCube
-				);
-
-			} else if ( action == 'delete-tag' ) {
-
-				let obj = intersects[0].object.logicTile ?
 								intersects[0].object.logicTile :
 								intersects[0].object.logicCube
+					);
 
-				obj.tag = undefined ;
+				} else if ( action == 'delete-tag' ) {
 
-				appConsole.log('TAG REMOVED from the element');
+					let obj = intersects[0].object.logicTile ?
+									intersects[0].object.logicTile :
+									intersects[0].object.logicCube
 
-			} else if ( action == 'draw-cube' ) {
+					obj.tag = undefined ;
 
-				newCube( intersects[0].point );
+					appConsole.log('TAG REMOVED from the element');
 
-			} else if ( action == 'delete-cube' ) {
+				} else if ( action == 'draw-cube' ) {
 
-				if ( meshCubes.indexOf( intersects[0].object ) > -1 ) {
+					newCube( intersects[0].point );
 
-					deleteCube( intersects[0].object );
+				} else if ( action == 'delete-cube' ) {
 
-				};
+					if ( meshCubes.indexOf( intersects[0].object ) > -1 ) {
 
-			} else if ( action == 'select-cube' ) {
+						deleteCube( intersects[0].object );
 
-				if ( meshCubes.indexOf( intersects[0].object ) > -1 ) {
+					};
 
-					input.moveCube( intersects[0].object );
+				} else if ( action == 'select-cube' ) {
+
+					if ( meshCubes.indexOf( intersects[0].object ) > -1 ) {
+
+						input.moveCube( intersects[0].object );
+
+					};
 
 				};
 
@@ -859,7 +903,7 @@ function Atlas() {
 		openScene,
 		filterTaggedElements,
 		showPlanes,
-		hidePlanes
+		movePlane
 	};
 
 

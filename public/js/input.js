@@ -13,7 +13,6 @@ function Input() {
 	const domMoveCube = document.getElementById('move-cube');
 
 	const domShowPlanes = document.getElementById('show-planes');
-	const domHidePlanes = document.getElementById('hide-planes');
 	const domMovePlanes = document.getElementById('move-planes');
 
 	const domFilterTag = document.getElementById('filter-tagged');
@@ -55,6 +54,9 @@ function Input() {
 		delete-tile
 
 		paint
+
+		select-plane
+		move-plane
 
 		export-obj
 		export-json
@@ -117,15 +119,17 @@ function Input() {
 		atlas.showPlanes();
 	});
 
-	domHidePlanes.addEventListener('click', ()=> {
-		domHidePlanes.blur();
-		atlas.hidePlanes();
-	});
-
 	domMovePlanes.addEventListener('click', ()=> {
 		domMovePlanes.blur();
-		console.log('move planes')
+		abortAll();
+		setState('select-plane');
+		appConsole.log('SELECT a PLANE to MOVE');
 	});
+
+	function movePlane( planeMesh ) {
+		setState('move-plane');
+		appConsole.log('press ARROWS to MOVE the PLANE');
+	};
 
 
 	
@@ -286,6 +290,10 @@ function Input() {
 
 			atlas.raycast( mouse, 'select-cube' );
 
+		} else if ( state == 'select-plane' ) {
+
+			atlas.raycast( mouse, 'select-plane' );
+
 		};
 
 	}, false );
@@ -349,6 +357,18 @@ function Input() {
 
 			atlas.highlightTile( int );
 
+		} else if ( state == 'move-plane' ) {
+
+			if ( int == 1 ) {
+
+				atlas.movePlane( -1 )
+
+			} else if ( int == 3 ) {
+
+				atlas.movePlane( 1 )
+
+			};
+
 		};
 
 	};
@@ -411,7 +431,8 @@ function Input() {
 		clickPaint,
 		getNewTag,
 		onGeneralSubmit,
-		moveCube
+		moveCube,
+		movePlane
 	};
 
 };
