@@ -746,6 +746,7 @@ function Atlas() {
 
 		let tilesGraph = [] ;
 		let cubesGraph = [] ;
+		let planes = [];
 		let min ;
 		let stage ;
 
@@ -789,9 +790,23 @@ function Atlas() {
 		});
 
 
+		planeMeshes.forEach( (meshPlane)=> {
+
+			planes.push( {
+				norm: {
+					x: meshPlane.plane.normal.x,
+					z: meshPlane.plane.normal.z,
+				},
+				const: meshPlane.plane.constant
+			} );
+
+		});
+
+
 		let sceneGraph = {
 			tilesGraph,
-			cubesGraph
+			cubesGraph,
+			planes
 		};
 
 		console.log( sceneGraph );
