@@ -1,0 +1,23 @@
+
+
+
+1 - adapt ENGINE to EXPORT CHUNKS
+		- must use the name nomenclature 0y0x .. ect
+		- export in a directory to export as is to AWS
+		- export the same chunks in GLTF for modeling
+
+2 - make LIMIT PLANES in the ENGINE
+		- must export
+		- must not be anoying while using engine
+
+3 - hide/show tiles in ENGINE depending on camera pos
+
+4 - make LIMIT TILES transparent
+
+
+
+5 - draw the map for the beta version
+		- must include proto story
+		- must find several edelweiss
+		- must find one new movement
+		- end of the map features me

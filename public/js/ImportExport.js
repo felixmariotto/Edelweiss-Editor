@@ -2,6 +2,10 @@
 function ImportExport() {
 
 
+    // SIZE OF THE MAP CHUNKS
+    const CHUNKSIZE = 4 ;
+
+
     // var exporter = new THREE.OBJExporter();
     var exporter = new THREE.GLTFExporter();
 
@@ -58,18 +62,251 @@ function ImportExport() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function exportSceneGLTF() {
 
-        exporter.parse( scene, (result)=> {
 
-            var output = JSON.stringify( result, null, 2 );
 
-            var file = new File([output], "logicScene.gltf", {type: "text/plain;charset=utf-8"});
-            saveAs(file);
 
-        } );
+        /////////////////////
+        ///  SCENE MEASURE
+        /////////////////////
+
+        let left = 0 ;
+        let right = 0 ;
+        let top = 0 ;
+
+        scene.traverse( (obj)=> {
+
+            if ( obj.type == 'Mesh' ) {
+
+                if ( obj.position.x < left ) {
+
+                    left = obj.position.x ;
+
+                } else if ( obj.position.x > right ) {
+
+                    right = obj.position.x ;
+
+                };
+
+                if ( obj.position.y > top ) {
+
+                    top = obj.position.y ;
+
+                };
+
+            };
+
+        });
+
+        left -= 3 ;
+        right += 3 ;
+        top += 3 ;
+
+
+
+
+        //////////////////////////////////////
+        ///    CREATION OF CHUNKS AND EXPORT
+        //////////////////////////////////////
+
+        for ( let i = 0 ; i < top / CHUNKSIZE ; i ++ ) {
+
+            let stage = new THREE.Group();
+
+            for ( let j = scene.children.length - 1 ; j > -1 ; j--  ) {
+
+                if ( scene.children[ j ].type == 'Mesh' &&
+                     scene.children[ j ].position.y < (i + 1) * CHUNKSIZE ) {
+
+                    stage.add( scene.children[ j ] );
+
+                };
+
+            };
+
+            exportStage( stage, i );
+
+            for ( let j = stage.children.length - 1 ; j > -1 ; j-- ) {
+
+                scene.add( stage.children[ j ] );
+
+            };
+
+        };
+
+
+        
+        function exportStage( group, i ) {
+
+            exporter.parse( group, (result)=> {
+
+                var output = JSON.stringify( result, null, 2 );
+
+                var file = new File([output], `sceneTiles-stage${ i }.gltf`, {type: "text/plain;charset=utf-8"});
+                saveAs(file);
+
+            } );
+
+        };
+
+
+
+
+
+
+        //////////////////////////////////
+        ///  LINES CREATION AND EXPORT
+        //////////////////////////////////
+
+
+        setTimeout( ()=> {
+
+            // create a group with the lines inside
+            let lines = createLines();
+
+            // export as GLTF
+            exportLines( lines );
+
+            // delete the lines
+            for ( let i = lines.children.length - 1 ; i > -1 ; i-- ) {
+                lines.children[ i ].geometry.dispose();
+            };
+
+        }, 1000);
+
+
+
+        function exportLines( group ) {
+
+            exporter.parse( group, (result)=> {
+
+                var output = JSON.stringify( result, null, 2 );
+
+                var file = new File([output], `sceneTiles-LINES.gltf`, {type: "text/plain;charset=utf-8"});
+                saveAs(file);
+
+            } );
+
+        };
+
+
+
+        function createLines() {
+
+            let leftMostLine = 0 ;
+            let rightMostLine = 0 ;
+            let topMostLine = 0 ;
+
+            var shapeMat = new THREE.MeshBasicMaterial( { color: 0xff0048 } );
+
+            var group = new THREE.Group();
+
+
+            while ( left < leftMostLine ||
+                    right > rightMostLine ||
+                    top > topMostLine  ) {
+
+
+                if ( left < leftMostLine ) {
+
+                    var shape = new THREE.Shape();
+
+                    shape.moveTo( leftMostLine, 0 );
+                    shape.lineTo( leftMostLine, top );
+                    shape.lineTo( leftMostLine + 0.01, top );
+                    shape.moveTo( leftMostLine + 0.01, 0 );
+
+                    var geometry = new THREE.ShapeBufferGeometry( shape );
+                    var mesh = new THREE.Mesh( geometry, shapeMat ) ;
+
+                    group.add( mesh );
+
+                    leftMostLine -= CHUNKSIZE ;
+
+                };
+
+
+                if ( right > rightMostLine ) {
+
+                    var shape = new THREE.Shape();
+
+                    shape.moveTo( rightMostLine, 0 );
+                    shape.lineTo( rightMostLine, top );
+                    shape.lineTo( rightMostLine + 0.01, top );
+                    shape.moveTo( rightMostLine + 0.01, 0 );
+
+                    var geometry = new THREE.ShapeBufferGeometry( shape );
+                    var mesh = new THREE.Mesh( geometry, shapeMat ) ;
+
+                    group.add( mesh );
+
+                    rightMostLine += CHUNKSIZE ;
+
+                };
+
+
+                if ( top > topMostLine ) {
+
+                    var shape = new THREE.Shape();
+
+                    shape.moveTo( left, topMostLine );
+                    shape.lineTo( right, topMostLine );
+                    shape.lineTo( right, topMostLine + 0.01 );
+                    shape.moveTo( left, topMostLine + 0.01 );
+
+                    var geometry = new THREE.ShapeBufferGeometry( shape );
+                    var mesh = new THREE.Mesh( geometry, shapeMat ) ;
+
+                    group.add( mesh );
+
+                    topMostLine += CHUNKSIZE ;
+
+                };
+
+            };
+
+            return group ;
+
+        };
+
+
 
     };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
