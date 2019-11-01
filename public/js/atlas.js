@@ -94,6 +94,17 @@ function Atlas() {
 
 
 
+
+
+
+
+
+	////////////////
+	///    INIT
+	////////////////
+
+
+
 	Tile(
 		new THREE.Vector3( 1, 0, 1 ),
 		new THREE.Vector3( 2, 0, 2 )
@@ -104,6 +115,40 @@ function Atlas() {
 		new THREE.Vector3( -1, 0, 0 ),
 		new THREE.Vector3( -1, 1, 1 )
 	);
+
+
+	planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
+	makePlaneHelper( planeFront, 0 );
+
+	planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 3 );
+	makePlaneHelper( planeLeft, Math.PI / 2 );
+
+	planeRight = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 3 );
+	makePlaneHelper( planeRight, Math.PI / 2 );
+
+
+
+
+	function makePlaneHelper( plane, rotation ) {
+
+		let geometry = new THREE.PlaneBufferGeometry( 5, 5 );
+		let material = new THREE.MeshBasicMaterial({
+			color: 0xffff00,
+			side: THREE.DoubleSide,
+			transparent: true,
+			opacity: 0.1
+		});
+
+		let mesh = new THREE.Mesh( geometry, material );
+		mesh.position.copy( plane.normal );
+		mesh.position.negate();
+		mesh.position.multiplyScalar( plane.constant );
+
+		mesh.rotation.y = rotation ;
+
+		scene.add( mesh );
+
+	};
 
 
 

@@ -1,10 +1,18 @@
 
 
 
+
 1 - adapt ENGINE to EXPORT CHUNKS
 		- must use the name nomenclature 0y0x .. ect
 		- export in a directory to export as is to AWS
 		- export the same chunks in GLTF for modeling
+
+
+
+
+
+
+///////////////////////////////////////
 
 2 - make LIMIT PLANES in the ENGINE
 		- must export
