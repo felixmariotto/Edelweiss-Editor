@@ -12,6 +12,10 @@ function Input() {
 
 	const domMoveCube = document.getElementById('move-cube');
 
+	const domShowPlanes = document.getElementById('show-planes');
+	const domHidePlanes = document.getElementById('hide-planes');
+	const domMovePlanes = document.getElementById('move-planes');
+
 	const domFilterTag = document.getElementById('filter-tagged');
 	const domShowTag = document.getElementById('show-tag');
 	const domAssignTag = document.getElementById('assign-tag');
@@ -105,8 +109,24 @@ function Input() {
 
 
 	/////////////
-	///  MOVE
+	///  PLANES
 	///////////////
+
+	domShowPlanes.addEventListener('click', ()=> {
+		domShowPlanes.blur();
+		atlas.showPlanes();
+	});
+
+	domHidePlanes.addEventListener('click', ()=> {
+		domHidePlanes.blur();
+		atlas.hidePlanes();
+	});
+
+	domMovePlanes.addEventListener('click', ()=> {
+		domMovePlanes.blur();
+		console.log('move planes')
+	});
+
 
 	
 

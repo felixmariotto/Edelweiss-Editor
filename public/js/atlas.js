@@ -146,8 +146,27 @@ function Atlas() {
 
 		mesh.rotation.y = rotation ;
 
+		mesh.visible = false ;
+
+		plane.helper = mesh ;
+
 		scene.add( mesh );
 
+	};
+
+
+
+	function showPlanes() {
+		planeFront.helper.visible = true ;
+		planeLeft.helper.visible = true ;
+		planeRight.helper.visible = true ;
+	};
+
+
+	function hidePlanes() {
+		planeFront.helper.visible = false ;
+		planeLeft.helper.visible = false ;
+		planeRight.helper.visible = false ;
 	};
 
 
@@ -838,7 +857,9 @@ function Atlas() {
 		validateTile,
 		getSceneGraph,
 		openScene,
-		filterTaggedElements
+		filterTaggedElements,
+		showPlanes,
+		hidePlanes
 	};
 
 
