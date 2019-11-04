@@ -133,6 +133,9 @@ function Atlas() {
 	var planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
 	makePlaneHelper( planeFront, 0 );
 
+	var planeBack = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 3 );
+	makePlaneHelper( planeBack, 0 );
+
 	var planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 3 );
 	makePlaneHelper( planeLeft, Math.PI / 2 );
 
@@ -141,11 +144,13 @@ function Atlas() {
 
 	var planeMeshes = [
 		planeFront.helper,
+		planeBack.helper,
 		planeLeft.helper,
 		planeRight.helper
 	];
 
 	var selectedPlane ;
+
 
 
 	function makePlaneHelper( plane, rotation ) {
@@ -177,11 +182,19 @@ function Atlas() {
 
 
 
+
+
 	function showPlanes() {
-		planeFront.helper.visible = !planeFront.helper.visible ;
-		planeLeft.helper.visible = !planeLeft.helper.visible ;
-		planeRight.helper.visible = !planeRight.helper.visible ;
+
+		planeMeshes.forEach( (planeMesh)=> {
+
+			planeMesh.visible = !planeMesh.visible ;
+
+		});
+
 	};
+
+
 
 
 
@@ -343,7 +356,7 @@ function Atlas() {
 		};
 
 		// delete planes
-		[ planeFront, planeLeft, planeRight ].forEach( (plane)=> {
+		[ planeFront, planeBack, planeLeft, planeRight ].forEach( (plane)=> {
 
 			plane.helper.geometry.dispose();
 			plane.helper.material.dispose();
@@ -909,12 +922,18 @@ function Atlas() {
 				planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), plane.const );
 				makePlaneHelper( planeFront, 0 );
 
+			} else if ( plane.norm.z == 1 ) {
+
+				planeBack = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), plane.const );
+				makePlaneHelper( planeBack, 0 );
+
 			};
 
 		});
 
 		planeMeshes = [
 			planeFront.helper,
+			planeBack.helper,
 			planeLeft.helper,
 			planeRight.helper
 		];
