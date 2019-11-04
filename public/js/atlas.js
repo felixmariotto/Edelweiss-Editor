@@ -335,11 +335,27 @@ function Atlas() {
 
 	function clearScene() {
 
+		// delete tiles
 		for (let i = meshTiles.length - 1 ; i > -1 ; i--) {
 
 			deleteTile( meshTiles[i] );
 
 		};
+
+		// delete planes
+		[ planeFront, planeLeft, planeRight ].forEach( (plane)=> {
+
+			plane.helper.geometry.dispose();
+			plane.helper.material.dispose();
+			scene.remove( plane.helper );
+
+			plane = undefined ;
+
+		});
+
+		planeMeshes = [];
+
+		selectedPlane = undefined ;
 
 	};
 
@@ -818,9 +834,17 @@ function Atlas() {
 
 
 
+
+
+
+
+
 	function openScene( sceneGraph ) {
 
 		clearScene();
+
+
+		////  RE CREATE TILES
 
 		sceneGraph.tilesGraph.forEach( (stage)=> {
 
@@ -839,6 +863,10 @@ function Atlas() {
 			});
 
 		});
+
+
+
+		////  RE CREATE CUBES
 
 		sceneGraph.cubesGraph.forEach( (stage)=> {
 
@@ -859,7 +887,48 @@ function Atlas() {
 
 		});
 
+
+
+		////  RE CREATE PLANES
+
+		sceneGraph.planes.forEach( (plane)=> {
+
+			// Left plane
+			if ( plane.norm.x == -1 ) {
+
+				planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), plane.const );
+				makePlaneHelper( planeLeft, Math.PI / 2 );
+
+			} else if ( plane.norm.x == 1 ) {
+
+				planeRight = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), plane.const );
+				makePlaneHelper( planeRight, Math.PI / 2 );
+
+			} else if ( plane.norm.z == -1 ) {
+
+				planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), plane.const );
+				makePlaneHelper( planeFront, 0 );
+
+			};
+
+		});
+
+		planeMeshes = [
+			planeFront.helper,
+			planeLeft.helper,
+			planeRight.helper
+		];
+
+
 	};
+
+
+
+
+
+
+
+
 
 
 
