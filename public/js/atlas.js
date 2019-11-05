@@ -617,13 +617,20 @@ function Atlas() {
 
 
 
-	function newCube( position, skipMoving ) {
+	function newCube( position, scale, skipMoving ) {
+
+		scale = scale || { x:1, y:1, z:1 };
 
 		let logicCube = {
 			position: new THREE.Vector3(
 				position.x,
 				position.y,
 				position.z
+			),
+			scale: new THREE.Vector3(
+				scale.x,
+				scale.y,
+				scale.z
 			),
 			type: 'cube-inert'
 			// tag
@@ -657,6 +664,7 @@ function Atlas() {
 		let mesh = new THREE.Mesh( geometry, material );
 
 		mesh.position.copy( logicCube.position );
+		mesh.scale.copy( logicCube.scale );
 
 		return mesh ;
 
@@ -769,6 +777,19 @@ function Atlas() {
 
 
 
+	function roundVecTo( vec, decim ) {
+
+		for ( dir of Object.keys( vec ) ) {
+
+			vec[ dir ] = Number( vec[ dir ].toFixed( decim ) );
+
+		};
+
+	};
+
+
+
+
 
 	function getSceneGraph() {
 
@@ -805,6 +826,10 @@ function Atlas() {
 
 			stage = Math.floor( meshCube.position.y );
 			meshCube.logicCube.position.copy( meshCube.position );
+			meshCube.logicCube.scale.copy( meshCube.scale );
+
+			roundVecTo( meshCube.logicCube.position, 1 );
+			roundVecTo( meshCube.logicCube.scale, 1 );
 
 			if ( !cubesGraph[ stage ] ) {
 
@@ -887,7 +912,11 @@ function Atlas() {
 
 				stage.forEach( (logicCube)=> {
 
-					let meshCube = newCube( logicCube.position, true );
+					let meshCube = newCube(
+						logicCube.position,
+						logicCube.scale,
+						true
+					);
 					paintTile( meshCube, logicCube.type );
 
 					if ( logicCube.tag ) {

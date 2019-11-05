@@ -417,7 +417,6 @@ function Input() {
 
 	function abortAll() {
 		drawer.unselect();
-		atlas.clearTempTiles();
 		transformControl.detach();
 		appConsole.log('Abort all functions');
 	};
