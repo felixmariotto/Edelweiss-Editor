@@ -189,7 +189,7 @@ function Input() {
 
 	function moveCube( meshCube ) {
 		setState('move-cube');
-		appConsole.log('DRAG cube in the scene');
+		appConsole.log('DRAG cube in the scene. SPACE => switch transform');
 		transformControl.attach( meshCube );
 	};
 
@@ -384,6 +384,20 @@ function Input() {
 		} else if ( state == 'select-orientation' ) {
 
 			atlas.validateTile();
+
+		} else if ( state == 'move-cube' ) {
+
+			appConsole.log( 'switch transform control type' );
+
+			if ( transformControl.mode == 'translate' ) {
+
+				transformControl.setMode( 'scale' );
+
+			} else {
+
+				transformControl.setMode( 'translate' );
+
+			};
 
 		};
 
