@@ -77,13 +77,22 @@ function ImportExport() {
 
 
 
+    /*
+
+    This function ask the sceneGraph to atlas, then split it in chunks
+    to export it as several files. It measure the scene in order to do
+    so, and it also create reference lines that it export, to simplify
+    the modeling of chunks of map.
+
+    */
+
     function exportSceneGLTF() {
 
 
 
 
         /////////////////////
-        ///  SCENE MEASURE
+        ///  SCENE MEASURING
         /////////////////////
 
         let left = 0 ;
@@ -121,6 +130,8 @@ function ImportExport() {
 
 
 
+
+
         //////////////////////////////////////
         ///    CREATION OF CHUNKS AND EXPORT
         //////////////////////////////////////
@@ -132,7 +143,8 @@ function ImportExport() {
             for ( let j = scene.children.length - 1 ; j > -1 ; j--  ) {
 
                 if ( scene.children[ j ].type == 'Mesh' &&
-                     scene.children[ j ].position.y < (i + 1) * CHUNKSIZE ) {
+                     scene.children[ j ].position.y < (i + 1) * CHUNKSIZE &&
+                     scene.children[ j ].position.y >= i * CHUNKSIZE ) {
 
                     stage.add( scene.children[ j ] );
 
