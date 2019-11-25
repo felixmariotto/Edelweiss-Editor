@@ -894,6 +894,8 @@ function Atlas() {
 
 		sceneGraph.tilesGraph.forEach( (stage)=> {
 
+			if ( !stage ) return ;
+
 			stage.forEach( (logicTile)=> {
 
 				let meshTile = Tile(
@@ -916,24 +918,22 @@ function Atlas() {
 
 		sceneGraph.cubesGraph.forEach( (stage)=> {
 
-			if ( stage ) {
+			if ( !stage ) return ;
 
-				stage.forEach( (logicCube)=> {
+			stage.forEach( (logicCube)=> {
 
-					let meshCube = newCube(
-						logicCube.position,
-						logicCube.scale,
-						true
-					);
-					paintTile( meshCube, logicCube.type );
+				let meshCube = newCube(
+					logicCube.position,
+					logicCube.scale,
+					true
+				);
+				paintTile( meshCube, logicCube.type );
 
-					if ( logicCube.tag ) {
-						meshCube.logicCube.tag = logicCube.tag ;
-					};
+				if ( logicCube.tag ) {
+					meshCube.logicCube.tag = logicCube.tag ;
+				};
 
-				});
-
-			};
+			});
 
 		});
 
