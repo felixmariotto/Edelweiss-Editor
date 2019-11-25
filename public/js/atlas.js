@@ -67,6 +67,11 @@ function Atlas() {
 		side: THREE.DoubleSide
 	});
 
+	const SPECIALGROUNDMAT = new THREE.MeshLambertMaterial({
+		color: 0xff9b05,
+		side: THREE.DoubleSide
+	});
+
 	const STARTGROUNDMAT = new THREE.MeshLambertMaterial({
 		color: 0x3dffff,
 		side: THREE.DoubleSide
@@ -682,6 +687,9 @@ function Atlas() {
 
 			case 'ground-basic' :
 				return BASICGROUNDMAT ;
+
+			case 'ground-special' :
+				return SPECIALGROUNDMAT ;
 
 			case 'ground-start' :
 				return STARTGROUNDMAT ;
