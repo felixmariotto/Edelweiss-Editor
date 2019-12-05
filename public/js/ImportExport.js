@@ -152,6 +152,10 @@ function ImportExport() {
 
             };
 
+            console.log( stage );
+
+            console.log('i = ' + i )
+
             exportStage( stage, i );
 
             for ( let j = stage.children.length - 1 ; j > -1 ; j-- ) {
@@ -171,7 +175,12 @@ function ImportExport() {
                 var output = JSON.stringify( result, null, 2 );
 
                 var file = new File([output], `sceneTiles-stage${ i }.gltf`, {type: "text/plain;charset=utf-8"});
-                saveAs(file);
+                
+                setTimeout( ()=> {
+
+                    saveAs(file);
+
+                }, 500 * i );
 
             } );
 
