@@ -9,8 +9,8 @@ function Input() {
 
 	const domDelTile = document.getElementById('delete-tile');
 	const domDelCube = document.getElementById('delete-cube');
-
 	const domMoveCube = document.getElementById('move-cube');
+	const domToggleCube = document.getElementById('toggle-invisible-cube');
 
 	const domShowPlanes = document.getElementById('show-planes');
 	const domMovePlanes = document.getElementById('move-planes');
@@ -70,6 +70,7 @@ function Input() {
 		delete-cube
 		select-cube
 		move-cube
+		toggle-cube
 	*/
 
 
@@ -184,6 +185,14 @@ function Input() {
 		abortAll();
 		setState('select-cube');
 		appConsole.log('SELECT a CUBE to MOVE it');
+	});
+
+	domToggleCube.addEventListener('click', (e)=> {
+		domMoveCube.blur();
+		abortAll();
+		setState('toggle-cube');
+		atlas.toggleInvCube();
+		appConsole.log('TOGGLED invisible cubes visibility');
 	});
 
 

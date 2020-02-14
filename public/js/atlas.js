@@ -24,6 +24,12 @@ function Atlas() {
 		color: 0x276b00
 	});
 
+	const INVTRIGGERCUBEMAT = new THREE.MeshLambertMaterial({
+		color: 0x276b00,
+		transparent: true,
+		opacity: 0.3
+	});
+
 
 
 
@@ -721,6 +727,9 @@ function Atlas() {
 			case 'cube-trigger' :
 				return TRIGGERCUBEMAT ;
 
+			case 'cube-trigger-invisible' :
+				return INVTRIGGERCUBEMAT ;
+
 			default :
 				console.error('cannot get material');
 				break;
@@ -1032,6 +1041,23 @@ function Atlas() {
 
 
 
+	function toggleInvCube() {
+
+		scene.traverse( (child)=> {
+
+			if ( child.logicCube &&
+				 child.logicCube.type == 'cube-trigger-invisible' ) {
+			
+				child.visible = !child.visible ;
+			};
+
+		});
+
+	};
+
+
+
+
 	return {
 		raycast,
 		meshTiles,
@@ -1043,7 +1069,8 @@ function Atlas() {
 		openScene,
 		filterTaggedElements,
 		showPlanes,
-		movePlane
+		movePlane,
+		toggleInvCube
 	};
 
 
