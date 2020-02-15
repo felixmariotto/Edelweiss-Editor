@@ -336,6 +336,8 @@ function ImportExport() {
 
         let sceneGraph = atlas.getSceneGraph();
 
+        console.log( sceneGraph )
+
         let data = hashJSON( JSON.stringify( sceneGraph ) );
 
         let compressedData = lzjs.compress( data );

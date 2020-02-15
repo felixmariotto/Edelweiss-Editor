@@ -24,6 +24,10 @@ function Atlas() {
 		color: 0x276b00
 	});
 
+	const ANCHORCUBEMAT = new THREE.MeshLambertMaterial({
+		color: 0xff1100
+	});
+
 	const INVTRIGGERCUBEMAT = new THREE.MeshLambertMaterial({
 		color: 0x276b00,
 		transparent: true,
@@ -729,6 +733,9 @@ function Atlas() {
 
 			case 'cube-trigger-invisible' :
 				return INVTRIGGERCUBEMAT ;
+
+			case 'cube-anchor' :
+				return ANCHORCUBEMAT ;
 
 			default :
 				console.error('cannot get material');
